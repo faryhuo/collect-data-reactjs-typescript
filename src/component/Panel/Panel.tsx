@@ -38,7 +38,7 @@ class Panel extends React.Component<Props,State> {
         } else {
           return child;
         }
-      }.bind(this));
+      });
         return (
           <div className="Panel">
               <Card title={this.props.title}  extra={<span onClick={()=>{this.showOrHideContent()}}>{this.state.display?<CaretUpOutlined />:<CaretDownOutlined />}</span>} bordered={false} >

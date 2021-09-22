@@ -125,7 +125,7 @@ class HtmlTable extends React.Component<Props,State> {
           },{
             title:"Action",
             dataIndex:"file",
-            render: (file:any) => <span><a href="#" onClick={()=>{this.review(file)}}>review</a></span>,
+            render: (file:any) => <Button onClick={()=>{this.review(file)}}>review</Button>,
           }];
     }
 

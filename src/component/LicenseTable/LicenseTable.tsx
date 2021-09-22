@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Button,Alert  } from 'antd';
-import { observer,inject} from 'mobx-react';
+import { observer} from 'mobx-react';
 import './LicenseTable.styl';
 
 
@@ -78,34 +78,35 @@ class LicenseTable extends React.Component <Props,State> {
     });
   };
 
+  
     getColumns(){
       return [{
             title: 'File Name',
             dataIndex: 'fileName',
             key:"fileName",
-            sorter:(a:any, b:any) => this.order(a,b),
+            sorter:this.order,
             sortOrder: this.getSortOrder.call(this,"fileName")
           },{
             title:"Machine Name",
             dataIndex:"computerName",
-            sorter:(a:any, b:any)  => this.order(a,b),
+            sorter:this.order,
             sortOrder: this.getSortOrder.call(this,"computerName")
           },{
             title:"User",
             dataIndex:"windowLogon",
-            sorter:(a:any, b:any)  => this.order(a,b),
+            sorter:this.order,
             sortOrder: this.getSortOrder.call(this,"windowLogon")
           },{
             title:"Status",
             dataIndex:"convert",
-            sorter:(a:any, b:any)  => this.order(a,b),
+            sorter:this.order,
             render: (convert:boolean) => <div>{convert? <Alert type="success" message="Success" banner />:<Alert type="error" message="Error" banner />}</div>,
             sortOrder: this.getSortOrder.call(this,"convert")
           },{
             title:"Message",
             dataIndex:"message",
             render: (message:string) => <pre>{message}</pre>,
-            sorter:(a:any, b:any)  => this.order(a,b),
+            sorter:this.order,
             sortOrder: this.getSortOrder.call(this,"message")
           }];
     }
