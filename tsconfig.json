@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
     "target": "es5",
     "lib": [
       "dom",
@@ -18,9 +19,18 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "paths": {
+      "page/*": ["./src/page/*"],
+      "component/*": ["./src/component/*"],
+      "store/*": ["./src/store/*"],
+      "common/*": ["./src/common/*"],
+      "@/*": ["./src/*"]
+    } 
   },
   "include": [
     "src"
   ]
+  
 }
