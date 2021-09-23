@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import './PreviewHTML.styl';
 import { Modal, Button } from 'antd';
 
@@ -22,7 +22,7 @@ class PreviewHTML extends React.Component<Props,State> {
 
 
 
-    render() {
+    render():ReactElement {
         return (
             <div className="PreviewHTML"  >
                <Modal bodyStyle={{overflow:"auto",height:"500px"}} width="95%"

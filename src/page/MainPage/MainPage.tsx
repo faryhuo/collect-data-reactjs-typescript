@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import './MainPage.styl';
 import CollectData from 'page/CollectData/CollectData';
 import ExcelUploadPage from 'page/ExcelUploadPage/ExcelUploadPage';
@@ -7,7 +7,7 @@ import ConfirmPage from 'page/ConfirmPage/ConfirmPage';
 import { Steps} from 'antd';
 import {LicenseInfoStore} from 'store/LicenseInfoStore'
 import {HomePageStore} from 'store/HomePageStore'
-const { Step } = Steps;
+const { Step} = Steps;
 
 export interface Props{
   showMessage:Function,
@@ -30,18 +30,18 @@ class MainPage extends React.Component<Props,State> {
         
     }
 
-    nextStep(current:number){
+    nextStep(current:number):void{
       this.setState({ current:current,
       maxCurrent:current });
     };
 
-    onChange(current:number){
+    onChange(current:number):void{
       if(current<=this.state.maxCurrent && current!==this.state.current){
         this.setState({ current });
       }
     }
 
-    getPageBycurrent(){
+    getPageBycurrent():ReactNode{
       let propsAttr={
         showMessage:this.props.showMessage
       };
@@ -57,7 +57,7 @@ class MainPage extends React.Component<Props,State> {
       }
     }
 
-    getStepStatus(current:number){
+    getStepStatus(current:number):any{
       if(current<this.state.maxCurrent){
         return "finish"
       }else if(current===this.state.maxCurrent){
@@ -67,7 +67,7 @@ class MainPage extends React.Component<Props,State> {
       }
     }
 
-    render() {
+    render() :ReactElement{
         return (
             <div className="MainPage">
               <div className="step-content">

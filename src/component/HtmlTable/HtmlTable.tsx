@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Table, Button } from 'antd';
 import { observer} from 'mobx-react';
 import _ from 'lodash';
@@ -38,10 +38,12 @@ class HtmlTable extends React.Component<Props,State> {
   }
   
 
-  getSortOrder(field:string){
+  getSortOrder(field:string):boolean | string{
     let sortedInfo=this?.state?.sortedInfo;
     if(sortedInfo){
       return sortedInfo.field===field && sortedInfo.order; 
+    }else{
+      return false;
     }
   }
 
@@ -57,14 +59,14 @@ class HtmlTable extends React.Component<Props,State> {
     }
   }
 
-  onSelectChange(selectedRowKeys:Array<number>){
+  onSelectChange(selectedRowKeys:Array<number>):void{
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
   };
 
-  remove(){
+  remove():void{
     if(this.state.selectedRowKeys.length===0){
-      return false;
+      return;
     }
     const message="Do you want to delete the record?";
     const self=this;
@@ -77,9 +79,9 @@ class HtmlTable extends React.Component<Props,State> {
     this.props.showMessage(message,action)
   }
 
-  removeAll(){
+  removeAll():void{
     if(this.state.selectedRowKeys.length===0){
-      return false;
+      return;
     }
     const message="Do you want to delete all record?";
     const self=this;
@@ -92,7 +94,7 @@ class HtmlTable extends React.Component<Props,State> {
     this.props.showMessage(message,action)
   }
 
-  handleChange(pagination:any, filters:any, sorter:any){
+  handleChange(pagination:any, filters:any, sorter:any):void{
     console.log('Various parameters', pagination, filters, sorter);
     this.setState({
       filteredInfo: filters,
@@ -100,7 +102,7 @@ class HtmlTable extends React.Component<Props,State> {
     });
   };
 
-    getColumns(){
+    getColumns():Array<any>{
       return [{
             title: 'File Name',
             dataIndex: 'name',
@@ -129,7 +131,7 @@ class HtmlTable extends React.Component<Props,State> {
           }];
     }
 
-    review(file:any){
+    review(file:any):void{
       let reader = new FileReader();
       reader.readAsText(file);
       let self=this;
@@ -144,16 +146,16 @@ class HtmlTable extends React.Component<Props,State> {
       };
     }
 
-    handleCancel(){
+    handleCancel():void{
       this.setState({ preview: false });
     };
-    render() {
+    render():ReactElement{
       const rowSelection = {
         selectedRowKeys:this.state.selectedRowKeys,
         onChange:(selectedRowKeys:any)=>{
            this.onSelectChange(selectedRowKeys)
         }
-     }
+      }
       const columns=this.getColumns();
         return (
             <div className="HtmlTable">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Card } from 'antd';
 import { CaretUpOutlined,CaretDownOutlined} from '@ant-design/icons';
 import _ from 'lodash';
@@ -20,14 +20,14 @@ class Panel extends React.Component<Props,State> {
         }
     }
 
-    showOrHideContent(){
+    showOrHideContent():void{
       this.setState({
         display:!this.state.display
       });
     }
 
 
-    render() {
+    render():ReactElement {
       // const childrenWithProps = React.Children.map((children, child) => React.cloneElement(child));
       let supportedInputTypes:any=[];
       let newChildren = React.Children.map(this.props.children,function(child:any) {

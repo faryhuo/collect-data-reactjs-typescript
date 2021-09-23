@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import 'page/HomePage/HomePage.styl';
 import MenuList from 'component/Menu/Menu';
 import MainPage from 'page/MainPage/MainPage';
@@ -60,7 +60,7 @@ class HomePage extends React.Component<Props>{
       }
     
 
-    render() {
+    render() :ReactElement{
         return (
             <div className="HomePage" >
                 <div className="menu-wrapper">

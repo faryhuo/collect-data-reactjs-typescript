@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Upload, Button} from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import 'page/CollectData/CollectData.styl';
@@ -75,7 +75,7 @@ class CollectData extends React.Component<Props,State> {
         }
     }
 
-    submit (){
+    submit ():void{
         this.props.homePageStore.showLoading();
         const self=this;
         const formData = new FormData();
@@ -110,7 +110,7 @@ class CollectData extends React.Component<Props,State> {
     }
 
 
-    render() {
+    render() :ReactElement{
         const uploadProps=this.getUploadProps();
         return (
             <div className="CollectData" >

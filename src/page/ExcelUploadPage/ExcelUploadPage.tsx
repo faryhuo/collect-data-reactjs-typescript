@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Upload, Button,Modal,Alert } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import './ExcelUploadPage.styl';
@@ -51,7 +51,7 @@ class ExcelUploadPage extends React.Component<Props,State>{
             this.state.fileList.push(this.props.licenseInfoStore.excelFile)
         }
     }
-    destroyAll() {
+    destroyAll():void {
         Modal.destroyAll();
     }
     getUploadProps():UploadProps{
@@ -78,7 +78,7 @@ class ExcelUploadPage extends React.Component<Props,State>{
         }
     }
 
-    handleUpload (){
+    handleUpload ():void{
         let self=this;
         const formData = new FormData();
         formData.append("excelFile",this.state.excelFile);
@@ -122,7 +122,7 @@ class ExcelUploadPage extends React.Component<Props,State>{
         });
     }
 
-    downloadFile(){
+    downloadFile():void{
         const licenseInfoStore=this.props.licenseInfoStore;
         const self=this;
         axios({
@@ -152,7 +152,7 @@ class ExcelUploadPage extends React.Component<Props,State>{
           });
     }
 
-    submit (){
+    submit ():void{
         this.props.homePageStore.showLoading();
         const self=this;
         const formData = new FormData();
@@ -192,7 +192,7 @@ class ExcelUploadPage extends React.Component<Props,State>{
 
 
 
-    render() {
+    render() :ReactElement{
         const uploadProps=this.getUploadProps();
         return (
             <div className="ExcelUploadPage" >

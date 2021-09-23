@@ -31,10 +31,12 @@ class LicenseTable extends React.Component <Props,State> {
         }
   }
 
-  getSortOrder(field:any){
+  getSortOrder(field:any):boolean | string{
     let sortedInfo=this?.state?.sortedInfo;
     if(sortedInfo){
       return sortedInfo.field===field && sortedInfo.order; 
+    }else{
+      return false;
     }
   }
 
@@ -55,9 +57,9 @@ class LicenseTable extends React.Component <Props,State> {
     this.setState({ selectedRowKeys });
   };
 
-  remove(){
+  remove():void{
     if(this.state.selectedRowKeys.length===0){
-      return false;
+      return;
     }
     const message="Do you want to deleted the record?";
     const self=this;
@@ -70,7 +72,7 @@ class LicenseTable extends React.Component <Props,State> {
     this.props.showMessage(message,action)
   }
 
-  handleChange(pagination:any, filters:any, sorter:any){
+  handleChange(pagination:any, filters:any, sorter:any):void{
     console.log('Various parameters', pagination, filters, sorter);
     this.setState({
       filteredInfo: filters,
@@ -79,7 +81,7 @@ class LicenseTable extends React.Component <Props,State> {
   };
 
   
-    getColumns(){
+    getColumns():Array<any>{
       return [{
             title: 'File Name',
             dataIndex: 'fileName',

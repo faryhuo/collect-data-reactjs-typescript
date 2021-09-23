@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import './FinishPage.styl';
 import { Result, Button } from 'antd';
 
@@ -15,7 +15,7 @@ class FinishPage extends React.Component<Props> {
     }
 
 
-    render() {
+    render():ReactElement {
         return (
             <div className="FinishPage">
             <Result

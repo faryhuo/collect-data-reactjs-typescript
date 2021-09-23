@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Menu, Button } from 'antd';
 import {
   MenuUnfoldOutlined,
@@ -7,8 +7,14 @@ import {
 }from '@ant-design/icons';
 import './Menu.styl';
 
-class MenuList extends React.Component {
-  constructor(props) {
+export interface Props{
+
+}
+interface State{
+  collapsed:boolean
+}
+class MenuList extends React.Component<Props,State> {
+  constructor(props:Props) {
         super(props);
         //react state
         this.state={
@@ -16,13 +22,13 @@ class MenuList extends React.Component {
         }
     }
     
-    toggleCollapsed(){
+    toggleCollapsed():void{
       this.setState({
         collapsed: !this.state.collapsed,
       });
     };
 
-    render() {
+    render() :ReactElement{
         return (
             <div className="Menu" style={{ width: this.state.collapsed?80:256 }}>
             <Menu

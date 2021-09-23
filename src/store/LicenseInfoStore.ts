@@ -35,8 +35,8 @@ export class LicenseInfoStore {
   readonly fileName:string="Company Software License.xlsx";
   validExcelFile:boolean=false;
 
-  get licenseInfoDataSource(){
-    let dataSource:any=[];
+  get licenseInfoDataSource():Array<object>{
+    let dataSource:Array<object>=[];
     for(let i=0;i<this.licenseInfoList.length;i++){
         let obj=this.licenseInfoList[i];
         if(obj.key===null || obj.key===undefined){
@@ -47,7 +47,7 @@ export class LicenseInfoStore {
     return dataSource;
   };
 
-  get htmlFileDataSource(){
+  get htmlFileDataSource():Array<object>{
     let dataSource: Array<object>=[];
     for(let i=0;i<this.fileList.length;i++){
         let file=this.fileList[i];
@@ -62,12 +62,12 @@ export class LicenseInfoStore {
     return dataSource;
   };
   
-  addFile(file:File){
+  addFile(file:File):void{
     this.key++;
     file.key=this.key;
     this.fileList.push(file);
   }
-  remove(selectedKeys:Array<number>){
+  remove(selectedKeys:Array<number>):void{
     for(let i=this.fileList.length-1;i>=0;i--){
       let file=this.fileList[i];
       if(_.indexOf(selectedKeys,file.key)>=0){
@@ -76,7 +76,7 @@ export class LicenseInfoStore {
     }
   }
 
-  removeLicenseInfo(selectedKeys:Array<number>){
+  removeLicenseInfo(selectedKeys:Array<number>):void{
     for(let i=this.licenseInfoList.length-1;i>=0;i--){
       let licenseInfo=this.licenseInfoList[i];
       if(_.indexOf(selectedKeys,licenseInfo.key)>=0){
@@ -85,7 +85,7 @@ export class LicenseInfoStore {
     }
   }
   
-  clear(){
+  clear():void{
     this.fileList.clear();
   }
 
