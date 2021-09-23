@@ -62,7 +62,7 @@ class ExcelUploadPage extends React.Component<Props,State>{
                 showDownloadIcon: false,
                 showRemoveIcon: false
             },
-            fileList:[],
+            fileList:this.state.fileList,
             uploading: false,
             beforeUpload: (file:any) => {
                 self.setState({

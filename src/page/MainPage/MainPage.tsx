@@ -53,7 +53,7 @@ class MainPage extends React.Component<Props,State> {
         case 2:return <ExcelUploadPage homePageStore={this.props.homePageStore} licenseInfoStore={this.props.licenseInfoStore}
         {...propsAttr} nextStep={()=>this.nextStep(3)}></ExcelUploadPage>
         case 3:return <FinishPage nextStep={()=>this.nextStep(0)}></FinishPage>
-        default:<FinishPage nextStep={()=>this.nextStep(0)}></FinishPage>
+        default:return <FinishPage nextStep={()=>this.nextStep(0)}></FinishPage>
       }
     }
 

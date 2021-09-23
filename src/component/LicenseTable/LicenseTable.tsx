@@ -1,5 +1,5 @@
-import React from 'react';
-import { Table, Button,Alert  } from 'antd';
+import React, { ReactElement } from 'react';
+import { Table, Button,Alert,Radio  } from 'antd';
 import { observer} from 'mobx-react';
 import './LicenseTable.styl';
 
@@ -15,7 +15,8 @@ interface State{
   filteredInfo: any,
   sortedInfo: any,
   selectedRowKeys: Array<number>, 
-  loading: boolean
+  loading: boolean,
+  filterByStatus:number
 }
 
 @observer
@@ -27,7 +28,8 @@ class LicenseTable extends React.Component <Props,State> {
           filteredInfo: null,
           sortedInfo: {field:"convert",order:"ascend"},
           selectedRowKeys: [], // Check here to configure the default column
-          loading: false          
+          loading: false,
+          filterByStatus:1       
         }
   }
 
@@ -80,6 +82,18 @@ class LicenseTable extends React.Component <Props,State> {
     });
   };
 
+  filterByStatus(status :boolean):void{
+    this.setState({
+      filteredInfo: {convert:[status]}
+    });
+  }
+
+  clearFilter():void{
+    this.setState({
+      filteredInfo: null
+    });
+  }
+
   
     getColumns():Array<any>{
       return [{
@@ -102,6 +116,13 @@ class LicenseTable extends React.Component <Props,State> {
             title:"Status",
             dataIndex:"convert",
             sorter:this.order.bind(this),
+            filters:[{
+              text:"Success",value:true
+            },{
+              text:"Fail",value:false
+            }],
+            filteredValue: this.state.filteredInfo?.convert || null,
+            onFilter: (value:any, record:any) => record.convert===value,
             render: (convert:boolean) => <div>{convert? <Alert type="success" message="Success" banner />:<Alert type="error" message="Error" banner />}</div>,
             sortOrder: this.getSortOrder.call(this,"convert")
           },{
@@ -113,7 +134,31 @@ class LicenseTable extends React.Component <Props,State> {
           }];
     }
 
-    render() {
+
+    getStatusOptions():Array<any>{
+      return [
+        { label: 'All', value: 1 },
+        { label: 'Success', value: 2 },
+        { label: 'Fail', value: 3 },
+      ];
+    }
+
+    changeStatusOptions(e:any):void{
+      let value=e.target.value;
+      let self=this;
+      this.setState({
+        filterByStatus:value
+      },()=>{
+        switch(value){
+          case 1: self.clearFilter();break;
+          case 2: self.filterByStatus(true);break;
+          case 3: self.filterByStatus(false);break;
+          default:self.clearFilter();break;
+        }
+      });
+    }
+
+    render():ReactElement{
       const rowSelection = {
         selectedRowKeys:this.state.selectedRowKeys,
         onChange:(selectedRowKeys:any)=>{
@@ -124,9 +169,17 @@ class LicenseTable extends React.Component <Props,State> {
         return (
             <div className="LicenseTable">
                   <div className="action-button-list" >
-                    <Button disabled={this.props.licenseInfoStore.licenseInfoDataSource.length?false:true} type="primary" onClick={()=>{this.remove()}}> 
+                    <Button disabled={this.props.licenseInfoStore.licenseInfoDataSource.length?false:true} danger={true}  onClick={()=>{this.remove()}}> 
                       Remove
                     </Button>
+
+                    <Radio.Group
+                      options={this.getStatusOptions()}
+                      onChange={this.changeStatusOptions.bind(this)}
+                      value={this.state.filterByStatus}
+                      optionType="button"
+                      buttonStyle="solid"
+                    />
                   </div>
                   <Table pagination={{ position: ["bottomLeft"],showTotal:(total, range) => `${range[0]}-${range[1]} of ${total} items`}}
                    onChange={(pagination, filters, sorter)=>{this.handleChange(pagination, filters, sorter)}} rowSelection={rowSelection} size="small" bordered columns={columns} dataSource={[...this.props.licenseInfoStore.licenseInfoDataSource]} />

@@ -127,7 +127,7 @@ class HtmlTable extends React.Component<Props,State> {
           },{
             title:"Action",
             dataIndex:"file",
-            render: (file:any) => <Button onClick={()=>{this.review(file)}}>review</Button>,
+            render: (file:any) => <Button type="link" onClick={()=>{this.review(file)}}>review</Button>,
           }];
     }
 
@@ -163,10 +163,10 @@ class HtmlTable extends React.Component<Props,State> {
                     {this.state.fileContent}
                     </PreviewHTML>}
                   <div className="action-button-list" >
-                    <Button type="primary" onClick={()=>{this.remove()}}> 
+                    <Button danger={true}  onClick={()=>{this.remove()}}> 
                       Remove
                     </Button>
-                    <Button type="primary" onClick={()=>{this.removeAll()}}> 
+                    <Button danger={true}  onClick={()=>{this.removeAll()}}> 
                       Remove All
                     </Button>
                   </div>

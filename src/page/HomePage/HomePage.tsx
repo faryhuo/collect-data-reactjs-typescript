@@ -7,7 +7,7 @@ import { observer } from 'mobx-react';
 import { ExclamationCircleOutlined,PieChartOutlined } from '@ant-design/icons';
 import { HomePageStore } from 'store/HomePageStore';
 import { LicenseInfoStore } from 'store/LicenseInfoStore';
-import {HashRouter as Router,Route } from 'react-router-dom';
+import {HashRouter as Router,Route,Redirect,Switch} from 'react-router-dom';
 
 import 'antd/dist/antd.css';
 
@@ -72,23 +72,23 @@ class HomePage extends React.Component<Props>{
     }
 
     render() :ReactElement{
-        let mainPage=(
+        const mainPage=(
             <MainPage 
                     homePageStore={this.props.homePageStore} licenseInfoStore={this.props.licenseInfoStore}
-                    showMessage={(msg:any,action:{onOk?:Function,onCancel?:Function})=>{this.showMessage(msg,action)}}></MainPage>);
+                    showMessage={this.showMessage.bind(this)}></MainPage>);
         return (
             <div className="HomePage" >
-                 <Router>
+                <Router>          
                 <div className="menu-wrapper">
                      <MenuList menuItems={this.getMenuItems()}></MenuList>                    
                 </div>
-                <div className="contain-wrapper">
+                <div className="contain-wrapper">      
+                 <Switch>   
                     <Route path="/LicenseGenerator" exact
-                     component={()=>{return mainPage}}
+                     render={()=>{return mainPage}}
                     ></Route>
-                     <Route path="/" exact
-                     component={()=>{return mainPage}}
-                    ></Route>
+                    <Redirect to="/LicenseGenerator" from='/' /> 
+                    </Switch>
                 </div>
                 {this.props.homePageStore.loading && <div className="loading">                
                     <Spin size="large" tip="Loading..."></Spin>

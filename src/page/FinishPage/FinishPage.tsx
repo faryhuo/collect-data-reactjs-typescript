@@ -23,7 +23,7 @@ class FinishPage extends React.Component<Props> {
                 title="Successfully upload license information file. Please check the excel if can be download!"
                 subTitle="Download file need takes 1-5 minutes, please wait."
                 extra={[
-                  <Button type="primary" onClick={()=>{this.props.nextStep()}}>
+                  <Button key={1} type="primary" onClick={()=>{this.props.nextStep()}}>
                     Go Home
                   </Button>,
                 ]}
