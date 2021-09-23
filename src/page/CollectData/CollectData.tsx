@@ -18,7 +18,7 @@ export interface Props {
     nextStep:Function
 }
 interface State {
-    fileList:any,
+    fileList:Array<any>,
     fileMap:any
 }
 
@@ -26,7 +26,7 @@ interface UploadProps {
     multiple: boolean,
     name:string,
     showUploadList:boolean,
-    fileList:any,
+    fileList:Array<any>,
     uploading:boolean,
     beforeUpload:any
 }

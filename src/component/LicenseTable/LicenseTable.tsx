@@ -86,29 +86,29 @@ class LicenseTable extends React.Component <Props,State> {
             title: 'File Name',
             dataIndex: 'fileName',
             key:"fileName",
-            sorter:this.order,
+            sorter:this.order.bind(this),
             sortOrder: this.getSortOrder.call(this,"fileName")
           },{
             title:"Machine Name",
             dataIndex:"computerName",
-            sorter:this.order,
+            sorter:this.order.bind(this),
             sortOrder: this.getSortOrder.call(this,"computerName")
           },{
             title:"User",
             dataIndex:"windowLogon",
-            sorter:this.order,
+            sorter:this.order.bind(this),
             sortOrder: this.getSortOrder.call(this,"windowLogon")
           },{
             title:"Status",
             dataIndex:"convert",
-            sorter:this.order,
+            sorter:this.order.bind(this),
             render: (convert:boolean) => <div>{convert? <Alert type="success" message="Success" banner />:<Alert type="error" message="Error" banner />}</div>,
             sortOrder: this.getSortOrder.call(this,"convert")
           },{
             title:"Message",
             dataIndex:"message",
             render: (message:string) => <pre>{message}</pre>,
-            sorter:this.order,
+            sorter:this.order.bind(this),
             sortOrder: this.getSortOrder.call(this,"message")
           }];
     }

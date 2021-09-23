@@ -1,12 +1,13 @@
 import React, { ReactElement } from 'react';
 import 'page/HomePage/HomePage.styl';
-import MenuList from 'component/Menu/Menu';
+import MenuList,{MenuItem} from 'component/Menu/Menu';
 import MainPage from 'page/MainPage/MainPage';
 import { Spin,Modal} from 'antd';
 import { observer } from 'mobx-react';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined,PieChartOutlined } from '@ant-design/icons';
 import { HomePageStore } from 'store/HomePageStore';
 import { LicenseInfoStore } from 'store/LicenseInfoStore';
+import {HashRouter as Router,Route } from 'react-router-dom';
 
 import 'antd/dist/antd.css';
 
@@ -59,21 +60,40 @@ class HomePage extends React.Component<Props>{
         confirm(config);       
       }
     
+    getMenuItems():Array<MenuItem>{
+        let menuItem:Array<MenuItem>=[{
+            text:"Generate License File",
+            link:"LicenseGenerator",
+            icon:<PieChartOutlined></PieChartOutlined>
+        }];
+
+
+        return menuItem;
+    }
 
     render() :ReactElement{
+        let mainPage=(
+            <MainPage 
+                    homePageStore={this.props.homePageStore} licenseInfoStore={this.props.licenseInfoStore}
+                    showMessage={(msg:any,action:{onOk?:Function,onCancel?:Function})=>{this.showMessage(msg,action)}}></MainPage>);
         return (
             <div className="HomePage" >
+                 <Router>
                 <div className="menu-wrapper">
-                     <MenuList></MenuList>                    
+                     <MenuList menuItems={this.getMenuItems()}></MenuList>                    
                 </div>
                 <div className="contain-wrapper">
-                    <MainPage 
-                    homePageStore={this.props.homePageStore} licenseInfoStore={this.props.licenseInfoStore}
-                    showMessage={(msg:any,action:{onOk?:Function,onCancel?:Function})=>{this.showMessage(msg,action)}}></MainPage>
+                    <Route path="/LicenseGenerator" exact
+                     component={()=>{return mainPage}}
+                    ></Route>
+                     <Route path="/" exact
+                     component={()=>{return mainPage}}
+                    ></Route>
                 </div>
                 {this.props.homePageStore.loading && <div className="loading">                
                     <Spin size="large" tip="Loading..."></Spin>
                 </div>}
+                </Router>
             </div>
         );
     }

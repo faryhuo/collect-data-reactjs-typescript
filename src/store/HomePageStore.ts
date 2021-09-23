@@ -20,6 +20,8 @@ export class HomePageStore {
   closeLoading():void{
     this.loading=false;
   }
+
+  
 }
 const homePageStore = new HomePageStore();
 

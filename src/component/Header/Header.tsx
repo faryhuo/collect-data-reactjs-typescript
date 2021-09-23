@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import './Header.styl';
 export interface Props{
   title:React.ReactNode
@@ -15,7 +15,7 @@ class Header extends React.Component<Props,State> {
     }
 
 
-    render() {
+    render():ReactElement {
         return (
             <div className="Header">
 

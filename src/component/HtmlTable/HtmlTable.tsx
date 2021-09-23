@@ -107,7 +107,7 @@ class HtmlTable extends React.Component<Props,State> {
             title: 'File Name',
             dataIndex: 'name',
             key:"name",
-            sorter:(a:any, b:any) => this.order(a,b),
+            sorter:this.order.bind(this),
             sortOrder: this.getSortOrder.call(this,"name")
           },{
             title:"Size",
@@ -116,13 +116,13 @@ class HtmlTable extends React.Component<Props,State> {
               let text=_.round(size/1024, 2) +" kb";
               return <span>{text}</span>;
             },
-            sorter:(a:any, b:any) => this.order(a,b),
+            sorter:this.order.bind(this),
             sortOrder: this.getSortOrder.call(this,"size")
           },{
             title:"ModifiedDate",
             dataIndex:"modifiedDate",
             render:(modifiedDate:Date) => <span>{modifiedDate.toDateString()}</span>,
-            sorter:(a:any, b:any) => this.order(a,b),
+            sorter:this.order.bind(this),
             sortOrder: this.getSortOrder.call(this,"modifiedDate")
           },{
             title:"Action",

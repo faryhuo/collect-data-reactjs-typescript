@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Button} from 'antd';
 import LicenseTable from 'component/LicenseTable/LicenseTable';
 import './ConfirmPage.styl';
@@ -22,7 +22,7 @@ class ConfirmPage extends React.Component<Props,State> {
     }
 
 
-    render() {
+    render() :ReactElement{
         return (
             <div className="ConfirmPage">
               <Panel title="Confrim need upload file">
