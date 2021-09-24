@@ -19,6 +19,11 @@ interface State{
   current:number,
   maxCurrent:number
 }
+enum StepStatus{
+  finish="finish",
+  process="process",
+  wait="wait"
+}
 
 class MainPage extends React.Component<Props,State> {
   constructor(props:Props) {
@@ -59,13 +64,14 @@ class MainPage extends React.Component<Props,State> {
       }
     }
 
-    getStepStatus(current:number):any{
+
+    getStepStatus(current:number):StepStatus{
       if(current<this.state.maxCurrent){
-        return "finish"
+        return StepStatus.finish
       }else if(current===this.state.maxCurrent){
-        return "process"
+        return StepStatus.process
       }else{
-        return "wait";
+        return StepStatus.wait;
       }
     }
 

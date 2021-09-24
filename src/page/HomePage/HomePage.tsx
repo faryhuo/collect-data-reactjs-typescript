@@ -1,13 +1,13 @@
 import React, { ReactElement, ReactNode } from 'react';
 import 'page/HomePage/HomePage.styl';
-import MenuList,{MenuItem} from 'component/Menu/Menu';
+import MenuList from 'component/Menu/Menu';
 import LicenseGenerator from 'page/LicenseGenerator';
 import { Spin,Modal} from 'antd';
 import { observer } from 'mobx-react';
-import { ExclamationCircleOutlined,PieChartOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { HomePageStore,LicenseInfoStore } from 'store/index';
 import {HashRouter as Router,Route,Redirect,Switch} from 'react-router-dom';
-
+import menuItems from 'common/MenuConfig';
 import 'antd/dist/antd.css';
 
 export interface Props{
@@ -71,16 +71,7 @@ class HomePage extends React.Component<Props>{
         confirm(config);       
       }
     
-    getMenuItems():Array<MenuItem>{
-        let menuItem:Array<MenuItem>=[{
-            text:"Generate License File",
-            link:"LicenseGenerator",
-            icon:<PieChartOutlined></PieChartOutlined>
-        }];
 
-
-        return menuItem;
-    }
 
     render() :ReactElement{
         const mainPage=(
@@ -93,7 +84,7 @@ class HomePage extends React.Component<Props>{
             <div className="HomePage" >
                 <Router>          
                 <div className="menu-wrapper">
-                     <MenuList menuItems={this.getMenuItems()}></MenuList>                    
+                     <MenuList menuItems={menuItems}></MenuList>                    
                 </div>
                 <div className="contain-wrapper">      
                  <Switch>   

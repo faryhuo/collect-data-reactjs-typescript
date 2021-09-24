@@ -80,7 +80,7 @@ class HtmlTable extends React.Component<Props,State> {
   }
 
   removeAll():void{
-    if(this.state.selectedRowKeys.length===0){
+    if(this.props.licenseInfoStore.htmlFileDataSource.length===0){
       return;
     }
     const message="Do you want to delete all record?";
