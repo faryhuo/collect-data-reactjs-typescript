@@ -1,10 +1,10 @@
 import React, { ReactElement } from 'react';
 import { Upload, Button} from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-import 'page/CollectData/CollectData.styl';
+import './CollectData.styl';
 import HtmlTable from 'component/HtmlTable/HtmlTable';
 import Panel from 'component/Panel/Panel';
-import {LicenseInfoStore} from 'store/LicenseInfoStore'
+import {FileNew, LicenseInfoStore} from 'store/LicenseInfoStore'
 import {HomePageStore} from 'store/HomePageStore'
 
 import { observer } from 'mobx-react';
@@ -15,7 +15,8 @@ export interface Props {
     licenseInfoStore: LicenseInfoStore,
     homePageStore: HomePageStore,
     showMessage:Function,
-    nextStep:Function
+    nextStep:Function,
+    showErrorMessage:Function
 }
 interface State {
     fileList:Array<any>,
@@ -28,7 +29,7 @@ interface UploadProps {
     showUploadList:boolean,
     fileList:Array<any>,
     uploading:boolean,
-    beforeUpload:any
+    beforeUpload:Function
 }
 
 @observer
@@ -50,7 +51,7 @@ class CollectData extends React.Component<Props,State> {
             showUploadList:false,
             fileList:this.state.fileList,
             uploading: false,
-            beforeUpload: (file: any) => {
+            beforeUpload: (file: FileNew) => {
                 let fileMap=self.state.fileMap;
                 //file[]
                 if(fileMap[file.name]){
@@ -82,7 +83,7 @@ class CollectData extends React.Component<Props,State> {
         const licenseInfoStore=this.props.licenseInfoStore;
         if(licenseInfoStore.fileList.length===0){
             this.props.homePageStore.closeLoading();
-            this.props.showMessage("Please confrim if upload the excel file and html file.");
+            this.props.showErrorMessage("Please confrim if upload the excel file and html file.");
             return;
         }
         for(let item in licenseInfoStore.fileList){
@@ -103,7 +104,7 @@ class CollectData extends React.Component<Props,State> {
         }).catch(function(error){
             console.log(error);
             const errorMessage="Has internal server error, please check the log file.";
-            self.props.showMessage(errorMessage)
+            self.props.showErrorMessage(errorMessage)
             self.props.homePageStore.closeLoading();
         });
         
@@ -111,7 +112,7 @@ class CollectData extends React.Component<Props,State> {
 
 
     render() :ReactElement{
-        const uploadProps=this.getUploadProps();
+        const {beforeUpload,...uploadProps}=this.getUploadProps();
         return (
             <div className="CollectData" >
                 {/* <div style={{"textAlign":"center"}}>
@@ -119,7 +120,7 @@ class CollectData extends React.Component<Props,State> {
                 </div> */}
                 <Panel title="Upload the license information file (html file)">
                 <div className="upload-control">
-                    <Dragger {...uploadProps} accept=".htm,.html">
+                    <Dragger beforeUpload={beforeUpload as any} {...uploadProps } accept=".htm,.html">
                         <p className="ant-upload-drag-icon">
                         <InboxOutlined />
                         </p>

@@ -18,7 +18,7 @@ interface State{
   currentFileName:string,
   selectedRowKeys: Array<number>, // Check here to configure the default column
   loading: boolean,
-  fileContent:any
+  fileContent:string | null
 }
 
 @observer
@@ -119,11 +119,11 @@ class HtmlTable extends React.Component<Props,State> {
             sorter:this.order.bind(this),
             sortOrder: this.getSortOrder.call(this,"size")
           },{
-            title:"ModifiedDate",
-            dataIndex:"modifiedDate",
-            render:(modifiedDate:Date) => <span>{modifiedDate.toDateString()}</span>,
+            title:"last Modified Date",
+            dataIndex:"lastModifiedDate",
+            render:(lastModifiedDate:Date) => <span>{lastModifiedDate && lastModifiedDate.toDateString()}</span>,
             sorter:this.order.bind(this),
-            sortOrder: this.getSortOrder.call(this,"modifiedDate")
+            sortOrder: this.getSortOrder.call(this,"lastModifiedDate")
           },{
             title:"Action",
             dataIndex:"file",

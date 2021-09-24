@@ -1,4 +1,5 @@
 import {observable, action,makeObservable} from 'mobx';
+import { Modal} from 'antd';
 
 export class HomePageStore {
 
@@ -20,6 +21,11 @@ export class HomePageStore {
   closeLoading():void{
     this.loading=false;
   }
+
+  destroyAll() {
+    Modal.destroyAll();
+  }
+
 
   
 }

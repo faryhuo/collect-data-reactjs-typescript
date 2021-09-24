@@ -1,14 +1,12 @@
 import {observable, action,makeObservable,computed } from 'mobx';
 import _ from 'lodash';
 
-export interface File{
+export interface FileNew extends File{
   lastModifiedDate:Date,
-  size?:number,
-  name:string,
   key?:number
 }
 export interface FileInfo{
-  modifiedDate?:Date,
+  lastModifiedDate?:Date,
   size?:number,
   name?:string,
   file?:File,
@@ -27,11 +25,11 @@ export class LicenseInfoStore {
       removeLicenseInfo:action.bound
     });
   }
-  fileList:any =[];
+  fileList:Array<FileNew> =[];
   key:number=0;
   licenseInfoList:any=[];
   fileMap={};
-  excelFile:any;
+  excelFile:FileNew | null=null;
   readonly fileName:string="Company Software License.xlsx";
   validExcelFile:boolean=false;
 
@@ -47,12 +45,12 @@ export class LicenseInfoStore {
     return dataSource;
   };
 
-  get htmlFileDataSource():Array<object>{
-    let dataSource: Array<object>=[];
+  get htmlFileDataSource():Array<FileInfo>{
+    let dataSource: Array<FileInfo>=[];
     for(let i=0;i<this.fileList.length;i++){
         let file=this.fileList[i];
         let fileInfo:FileInfo={};
-        fileInfo.modifiedDate=file.lastModifiedDate;
+        fileInfo.lastModifiedDate=file.lastModifiedDate;
         fileInfo.size=file.size;
         fileInfo.name=file.name;
         fileInfo.file=file;
@@ -62,7 +60,7 @@ export class LicenseInfoStore {
     return dataSource;
   };
   
-  addFile(file:File):void{
+  addFile(file:FileNew):void{
     this.key++;
     file.key=this.key;
     this.fileList.push(file);
@@ -71,7 +69,7 @@ export class LicenseInfoStore {
     for(let i=this.fileList.length-1;i>=0;i--){
       let file=this.fileList[i];
       if(_.indexOf(selectedKeys,file.key)>=0){
-        this.fileList.remove(file);
+        (this.fileList as any).remove(file);
       }
     }
   }
@@ -86,7 +84,7 @@ export class LicenseInfoStore {
   }
   
   clear():void{
-    this.fileList.clear();
+    (this.fileList as any).clear();
   }
 
   

@@ -1,9 +1,9 @@
 import React, { ReactElement, ReactNode } from 'react';
 import './MainPage.styl';
-import CollectData from 'page/CollectData/CollectData';
-import ExcelUploadPage from 'page/ExcelUploadPage/ExcelUploadPage';
-import FinishPage from 'page/FinishPage/FinishPage';
-import ConfirmPage from 'page/ConfirmPage/ConfirmPage';
+import CollectData from 'page/LicenseGenerator/CollectData/CollectData';
+import ExcelUploadPage from 'page/LicenseGenerator/ExcelUploadPage/ExcelUploadPage';
+import FinishPage from 'page/LicenseGenerator/FinishPage/FinishPage';
+import ConfirmPage from 'page/LicenseGenerator/ConfirmPage/ConfirmPage';
 import { Steps} from 'antd';
 import {LicenseInfoStore} from 'store/LicenseInfoStore'
 import {HomePageStore} from 'store/HomePageStore'
@@ -11,6 +11,7 @@ const { Step} = Steps;
 
 export interface Props{
   showMessage:Function,
+  showErrorMessage:Function,
   licenseInfoStore:LicenseInfoStore,
   homePageStore:HomePageStore
 }
@@ -43,7 +44,8 @@ class MainPage extends React.Component<Props,State> {
 
     getPageBycurrent():ReactNode{
       let propsAttr={
-        showMessage:this.props.showMessage
+        showMessage:this.props.showMessage,
+        showErrorMessage:this.props.showErrorMessage
       };
       switch(this.state.current){
         case 0:return <CollectData homePageStore={this.props.homePageStore} licenseInfoStore={this.props.licenseInfoStore}

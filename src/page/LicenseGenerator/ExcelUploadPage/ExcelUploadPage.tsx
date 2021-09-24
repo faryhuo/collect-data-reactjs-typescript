@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import { Upload, Button,Modal,Alert } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import './ExcelUploadPage.styl';
@@ -14,22 +14,23 @@ export interface Props {
     licenseInfoStore: LicenseInfoStore,
     homePageStore: HomePageStore,
     showMessage:Function,
+    showErrorMessage:Function,
     nextStep:Function
 }
 
 interface State {
     enableNext:boolean,
     name:string,
-    errorMessage:any,
+    errorMessage:string | ReactNode | null,
     excelFile:any,
-    fileList:any
+    fileList:Array<any>
 }
 
 interface UploadProps {
     multiple: boolean,
-    fileList:any,
+    fileList:Array<any>,
     uploading:boolean,
-    beforeUpload:any,
+    beforeUpload:Function,
     showUploadList:any
 }
 
@@ -159,7 +160,7 @@ class ExcelUploadPage extends React.Component<Props,State>{
         const licenseInfoStore=this.props.licenseInfoStore;
         if(licenseInfoStore.licenseInfoList.length===0 || !licenseInfoStore.excelFile){
             this.props.homePageStore.closeLoading();
-            this.props.showMessage("Please confrim if upload the excel file and html file.");
+            this.props.showErrorMessage("Please confrim if upload the excel file and html file.");
             return;
         }
         var arr=[];
@@ -181,7 +182,7 @@ class ExcelUploadPage extends React.Component<Props,State>{
         }).catch(function(error){
             console.log(error);
             const errorMessage="Has internal server error, please check the log file.";
-            self.props.showMessage(errorMessage)
+            self.props.showErrorMessage(errorMessage)
             self.props.homePageStore.closeLoading();
         });
         
@@ -193,11 +194,11 @@ class ExcelUploadPage extends React.Component<Props,State>{
 
 
     render() :ReactElement{
-        const uploadProps=this.getUploadProps();
+        const {beforeUpload,...uploadProps}=this.getUploadProps();
         return (
             <div className="ExcelUploadPage" >
                 <Panel title="Upload the excel file">
-                    <Dragger {...uploadProps} accept=".xls,.xlsx">
+                    <Dragger beforeUpload={beforeUpload as any} {...uploadProps} accept=".xls,.xlsx">
                         <p className="ant-upload-drag-icon">
                         <InboxOutlined />
                         </p>

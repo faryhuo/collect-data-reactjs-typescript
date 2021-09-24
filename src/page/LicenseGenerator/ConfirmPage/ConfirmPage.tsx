@@ -10,14 +10,12 @@ export interface Props {
   licenseInfoStore: LicenseInfoStore,
 }
 interface State {
-  dataSource:any
 }
 class ConfirmPage extends React.Component<Props,State> {
   constructor(props:Props) {
         super(props);
         //react state
         this.state={
-          dataSource:[]
         }
     }
 

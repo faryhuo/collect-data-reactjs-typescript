@@ -1,12 +1,11 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import 'page/HomePage/HomePage.styl';
 import MenuList,{MenuItem} from 'component/Menu/Menu';
-import MainPage from 'page/MainPage/MainPage';
+import LicenseGenerator from 'page/LicenseGenerator';
 import { Spin,Modal} from 'antd';
 import { observer } from 'mobx-react';
 import { ExclamationCircleOutlined,PieChartOutlined } from '@ant-design/icons';
-import { HomePageStore } from 'store/HomePageStore';
-import { LicenseInfoStore } from 'store/LicenseInfoStore';
+import { HomePageStore,LicenseInfoStore } from 'store/index';
 import {HashRouter as Router,Route,Redirect,Switch} from 'react-router-dom';
 
 import 'antd/dist/antd.css';
@@ -29,11 +28,23 @@ class HomePage extends React.Component<Props>{
     destroyAll() {
         Modal.destroyAll();
     }
+
+    showErrorMessage(msg:string | ReactNode){
+        const { error } = Modal;
+        let self=this;
+        let config={
+            content: <div >{msg}</div>,
+            onOk() {
+                self.destroyAll()
+            }
+        };
+        error(config);
+    }
       
-    showMessage(msg:any,action:{onOk?:Function,onCancel?:Function}) {
+    showMessage(msg:string | ReactNode,action:{onOk?:Function,onCancel?:Function}) {
         const { confirm } = Modal;
         let self=this;
-        var config={
+        let config={
             icon: <ExclamationCircleOutlined />,
             content: <div >{msg}</div>,
             onOk() {
@@ -73,9 +84,11 @@ class HomePage extends React.Component<Props>{
 
     render() :ReactElement{
         const mainPage=(
-            <MainPage 
+            <LicenseGenerator 
                     homePageStore={this.props.homePageStore} licenseInfoStore={this.props.licenseInfoStore}
-                    showMessage={this.showMessage.bind(this)}></MainPage>);
+                    showMessage={this.showMessage.bind(this)}
+                    showErrorMessage={this.showErrorMessage.bind(this)}
+                    ></LicenseGenerator>);
         return (
             <div className="HomePage" >
                 <Router>          
