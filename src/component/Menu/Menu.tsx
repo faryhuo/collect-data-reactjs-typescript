@@ -25,6 +25,18 @@ class MenuList extends React.Component<Props,State> {
           collapsed: true,
         }
     }
+
+    minWidth=80;
+    
+    maxWidth=256;
+
+    menuConfig:object={
+      defaultSelectedKeys:['0'],
+      mode:"inline",
+      theme:"dark"
+    }
+
+
     
     toggleCollapsed():void{
       this.setState({
@@ -68,11 +80,9 @@ class MenuList extends React.Component<Props,State> {
     render() :ReactElement{
         const menuItems=this.getMenuItem(this.props.menuItems);
         return (
-            <div className="Menu" style={{ width: this.state.collapsed?80:256 }}>
+            <div className="Menu" style={{ width: this.state.collapsed?this.minWidth:this.maxWidth }}>
             <Menu
-              defaultSelectedKeys={['0']}
-              mode="inline"
-              theme="dark"
+              {...this.menuConfig}
               inlineCollapsed={this.state.collapsed}
             >
               {menuItems}
