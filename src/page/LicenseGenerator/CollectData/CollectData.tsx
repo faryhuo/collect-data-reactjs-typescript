@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import { Upload, Button} from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import './CollectData.styl';
@@ -6,7 +6,6 @@ import HtmlTable from 'component/HtmlTable/HtmlTable';
 import Panel from 'component/Panel/Panel';
 import {FileNew, LicenseInfoStore} from 'store/LicenseInfoStore'
 import {HomePageStore} from 'store/HomePageStore'
-
 import { observer } from 'mobx-react';
 import axios from 'axios';
 
@@ -14,9 +13,9 @@ const { Dragger } = Upload;
 export interface Props {
     licenseInfoStore: LicenseInfoStore,
     homePageStore: HomePageStore,
-    showMessage:Function,
-    nextStep:Function,
-    showErrorMessage:Function
+    showMessage:(msg:string | ReactNode,action:{onOk?:()=>void,onCancel?:()=>void}) => void,
+    nextStep:()=>void,
+    showErrorMessage:(msg:string | ReactNode)=>void
 }
 interface State {
     fileList:Array<any>,
@@ -29,7 +28,7 @@ interface UploadProps {
     showUploadList:boolean,
     fileList:Array<any>,
     uploading:boolean,
-    beforeUpload:Function
+    beforeUpload:(file:any)=>void
 }
 
 @observer
@@ -68,7 +67,7 @@ class CollectData extends React.Component<Props,State> {
                     });
                 }
                 self.props.licenseInfoStore.addFile(file);
-                self.setState(state => ({
+                self.setState((state) => ({
                     fileList: [...state.fileList, file],
                 }));
                 return false;
@@ -99,7 +98,7 @@ class CollectData extends React.Component<Props,State> {
             self.props.homePageStore.closeLoading();
             if(res.data.status===0){
                 licenseInfoStore.licenseInfoList=res.data.data;
-                self.props.nextStep(1);
+                self.props.nextStep();
             }           
         }).catch(function(error){
             console.log(error);
@@ -120,7 +119,7 @@ class CollectData extends React.Component<Props,State> {
                 </div> */}
                 <Panel title="Upload the license information file (html file)">
                 <div className="upload-control">
-                    <Dragger beforeUpload={beforeUpload as any} {...uploadProps } accept=".htm,.html">
+                    <Dragger beforeUpload={beforeUpload as any} {...uploadProps} accept=".htm,.html">
                         <p className="ant-upload-drag-icon">
                         <InboxOutlined />
                         </p>

@@ -3,7 +3,7 @@ import { Modal} from 'antd';
 
 export class HomePageStore {
 
-  loading:boolean=false;
+  loading=false;
 
   constructor() {
     // 添加makeObservable
@@ -22,9 +22,7 @@ export class HomePageStore {
     this.loading=false;
   }
 
-  destroyAll() {
-    Modal.destroyAll();
-  }
+
 
 
   

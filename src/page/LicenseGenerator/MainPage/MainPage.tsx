@@ -10,8 +10,8 @@ import {HomePageStore} from 'store/HomePageStore'
 const { Step} = Steps;
 
 export interface Props{
-  showMessage:Function,
-  showErrorMessage:Function,
+  showMessage:(msg:string | ReactNode,action:{onOk?:()=>void,onCancel?:()=>void}) => void,
+  showErrorMessage:(errorMessage:string | ReactNode,) => void,
   licenseInfoStore:LicenseInfoStore,
   homePageStore:HomePageStore
 }
@@ -20,9 +20,9 @@ interface State{
   maxCurrent:number
 }
 enum StepStatus{
-  finish="finish",
-  process="process",
-  wait="wait"
+  Finish="finish",
+  Process="process",
+  Wait="wait"
 }
 
 class MainPage extends React.Component<Props,State> {
@@ -39,7 +39,7 @@ class MainPage extends React.Component<Props,State> {
     nextStep(current:number):void{
       this.setState({ current:current,
       maxCurrent:current });
-    };
+    }
 
     onChange(current:number):void{
       if(current<=this.state.maxCurrent && current!==this.state.current){
@@ -67,11 +67,11 @@ class MainPage extends React.Component<Props,State> {
 
     getStepStatus(current:number):StepStatus{
       if(current<this.state.maxCurrent){
-        return StepStatus.finish
+        return StepStatus.Finish
       }else if(current===this.state.maxCurrent){
-        return StepStatus.process
+        return StepStatus.Process
       }else{
-        return StepStatus.wait;
+        return StepStatus.Wait;
       }
     }
 

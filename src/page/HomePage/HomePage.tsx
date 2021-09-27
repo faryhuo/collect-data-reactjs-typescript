@@ -29,7 +29,7 @@ class HomePage extends React.Component<Props>{
         Modal.destroyAll();
     }
 
-    showErrorMessage(msg:string | ReactNode){
+    showErrorMessage(msg:string | ReactNode):void{
         const { error } = Modal;
         let self=this;
         let config={
@@ -41,7 +41,7 @@ class HomePage extends React.Component<Props>{
         error(config);
     }
       
-    showMessage(msg:string | ReactNode,action:{onOk?:Function,onCancel?:Function}) {
+    showMessage(msg:string | ReactNode,action:{onOk?:()=>void,onCancel?:()=>void}):void{
         const { confirm } = Modal;
         let self=this;
         let config={
@@ -89,7 +89,7 @@ class HomePage extends React.Component<Props>{
                 <div className="contain-wrapper">      
                  <Switch>   
                     <Route path="/LicenseGenerator" exact
-                     render={()=>{return mainPage}}
+                     render={()=>mainPage}
                     ></Route>
                     <Redirect to="/LicenseGenerator" from='/' /> 
                     </Switch>

@@ -3,7 +3,7 @@ import './FinishPage.styl';
 import { Result, Button } from 'antd';
 
 export interface Props{
-  nextStep:Function
+  nextStep:() => void
 } 
 
 class FinishPage extends React.Component<Props> {

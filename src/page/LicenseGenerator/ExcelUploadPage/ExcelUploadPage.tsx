@@ -13,9 +13,9 @@ const { Dragger } = Upload;
 export interface Props {
     licenseInfoStore: LicenseInfoStore,
     homePageStore: HomePageStore,
-    showMessage:Function,
-    showErrorMessage:Function,
-    nextStep:Function
+    showMessage:(msg:string | ReactNode,action:{onOk?:()=>void,onCancel?:()=>void}) => void,
+    showErrorMessage:(errorMessage:string) => void,
+    nextStep:() => void
 }
 
 interface State {
@@ -30,7 +30,7 @@ interface UploadProps {
     multiple: boolean,
     fileList:Array<any>,
     uploading:boolean,
-    beforeUpload:Function,
+    beforeUpload:(file:any)=>void,
     showUploadList:any
 }
 
@@ -56,7 +56,7 @@ class ExcelUploadPage extends React.Component<Props,State>{
         Modal.destroyAll();
     }
     getUploadProps():UploadProps{
-        let self:ExcelUploadPage=this;
+        let self=this;
         return {
             multiple:false,
             showUploadList:{
@@ -163,7 +163,7 @@ class ExcelUploadPage extends React.Component<Props,State>{
             this.props.showErrorMessage("Please confrim if upload the excel file and html file.");
             return;
         }
-        var arr=[];
+        let arr=[];
         for(let item in licenseInfoStore.licenseInfoList){
           let licenseInfo=licenseInfoStore.licenseInfoList[item];  
           arr.push(licenseInfo);
@@ -178,7 +178,7 @@ class ExcelUploadPage extends React.Component<Props,State>{
           .then((res) => { 
             console.log(res);
             self.downloadFile();
-            self.props.nextStep(3);
+            self.props.nextStep();
         }).catch(function(error){
             console.log(error);
             const errorMessage="Has internal server error, please check the log file.";
@@ -210,7 +210,7 @@ class ExcelUploadPage extends React.Component<Props,State>{
                     </Dragger>
                     <div className="split"></div>
                     <div>
-                        {  this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" />}
+                        {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" />}
                     </div>  
                 </Panel>
                 <div  className="action-button">

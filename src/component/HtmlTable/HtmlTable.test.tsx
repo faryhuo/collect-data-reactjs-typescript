@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { render, screen } from '@testing-library/react';
 import HtmlTable from './HtmlTable';
 import stores from 'src/store/index';

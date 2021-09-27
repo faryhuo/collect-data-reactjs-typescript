@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import { Table, Button } from 'antd';
 import { observer} from 'mobx-react';
 import _ from 'lodash';
@@ -8,9 +8,8 @@ import { LicenseInfoStore } from 'store/LicenseInfoStore';
 
 export interface Props{
   licenseInfoStore:LicenseInfoStore,
-  showMessage:Function
+  showMessage:(msg:string | ReactNode,action:{onOk?:()=>void,onCancel?:()=>void}) => void
 }
-
 interface State{
   filteredInfo: any,
   sortedInfo: any,
@@ -24,24 +23,24 @@ interface State{
 @observer
 class HtmlTable extends React.Component<Props,State> {
   constructor(props:Props) {
-        super(props);
-        //react state
-        this.state={
-          fileContent:null,
-          filteredInfo: null,
-          sortedInfo: null,
-          preview:false,
-          currentFileName:"",
-          selectedRowKeys: [], // Check here to configure the default column
-          loading: false          
-        }
+    super(props);
+    // react state
+    this.state = {
+      fileContent: null,
+      filteredInfo: null,
+      sortedInfo: null,
+      preview: false,
+      currentFileName: "",
+      selectedRowKeys: [], // Check here to configure the default column
+      loading: false
+    }
   }
-  
 
-  getSortOrder(field:string):boolean | string{
-    let sortedInfo=this?.state?.sortedInfo;
+
+  getSortOrder(field:string):boolean | string {
+    let sortedInfo = this?.state?.sortedInfo;
     if(sortedInfo){
-      return sortedInfo.field===field && sortedInfo.order; 
+      return sortedInfo.field === field && sortedInfo.order; 
     }else{
       return false;
     }
@@ -62,7 +61,7 @@ class HtmlTable extends React.Component<Props,State> {
   onSelectChange(selectedRowKeys:Array<number>):void{
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
-  };
+  }
 
   remove():void{
     if(this.state.selectedRowKeys.length===0){
@@ -71,7 +70,7 @@ class HtmlTable extends React.Component<Props,State> {
     const message="Do you want to delete the record?";
     const self=this;
     const action={
-      onOk:()=>{
+      onOk:() => {
         self.props.licenseInfoStore.remove(self.state.selectedRowKeys);
         self.setState({ selectedRowKeys:[]});
       }
@@ -84,9 +83,9 @@ class HtmlTable extends React.Component<Props,State> {
       return;
     }
     const message="Do you want to delete all record?";
-    const self=this;
-    const action={
-      onOk:()=>{
+    const self = this;
+    const action = {
+      onOk:() => {
         self.props.licenseInfoStore.clear();
         self.setState({ selectedRowKeys:[]});
       }
@@ -100,7 +99,7 @@ class HtmlTable extends React.Component<Props,State> {
       filteredInfo: filters,
       sortedInfo: sorter,
     });
-  };
+  }
 
     getColumns():Array<any>{
       return [{
@@ -143,12 +142,13 @@ class HtmlTable extends React.Component<Props,State> {
           fileContent:result,
           currentFileName:file.name
         })
-      };
+      }
     }
 
     handleCancel():void{
       this.setState({ preview: false });
-    };
+    }
+
     render():ReactElement{
       const rowSelection = {
         selectedRowKeys:this.state.selectedRowKeys,
@@ -159,19 +159,21 @@ class HtmlTable extends React.Component<Props,State> {
       const columns=this.getColumns();
         return (
             <div className="HtmlTable">
-                  {this.state.preview && <PreviewHTML title={this.state.currentFileName} handleCancel={()=>{this.handleCancel()}} visible={this.state.preview}>
-                    {this.state.fileContent}
-                    </PreviewHTML>}
-                  <div className="action-button-list" >
-                    <Button danger={true}  onClick={()=>{this.remove()}}> 
-                      Remove
-                    </Button>
-                    <Button danger={true}  onClick={()=>{this.removeAll()}}> 
-                      Remove All
-                    </Button>
-                  </div>
-                  <Table pagination={{ position: ["bottomLeft"],showTotal:(total, range) => `${range[0]}-${range[1]} of ${total} items`}}
-                  onChange={(pagination, filters, sorter)=>{this.handleChange(pagination, filters, sorter)}} rowSelection={rowSelection} size="small" bordered columns={columns} dataSource={[...this.props.licenseInfoStore.htmlFileDataSource]} />
+              {this.state.preview && <PreviewHTML title={this.state.currentFileName} handleCancel={()=>{this.handleCancel()}} visible={this.state.preview}>
+                {this.state.fileContent}
+                </PreviewHTML>}
+              <div className="action-button-list" >
+                <Button danger onClick={()=>{this.remove()}}> 
+                  Remove
+                </Button>
+                <Button danger onClick={()=>{this.removeAll()}}> 
+                  Remove All
+                </Button>
+              </div>
+              <Table pagination={{ position: ["bottomLeft"],
+              showTotal:(total, range) => `${range[0]}-${range[1]} of ${total} items`}}
+              onChange={(pagination, filters, sorter)=>{this.handleChange(pagination, filters, sorter)}} 
+              rowSelection={rowSelection} size="small" bordered columns={columns} dataSource={[...this.props.licenseInfoStore.htmlFileDataSource]} />
           </div>
         );
     }

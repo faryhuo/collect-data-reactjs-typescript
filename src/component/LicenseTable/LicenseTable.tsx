@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import { Table, Button,Alert,Radio  } from 'antd';
 import { observer} from 'mobx-react';
 import './LicenseTable.styl';
@@ -8,7 +8,7 @@ import { LicenseInfoStore } from 'store/LicenseInfoStore';
 
 export interface Props{
   licenseInfoStore:LicenseInfoStore,
-  showMessage:Function
+  showMessage:(msg:string | ReactNode,action:{onOk?:()=>void,onCancel?:()=>void}) => void,
 }
 
 interface State{
@@ -57,7 +57,7 @@ class LicenseTable extends React.Component <Props,State> {
   onSelectChange(selectedRowKeys:Array<number>):void{
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
-  };
+  }
 
   remove():void{
     if(this.state.selectedRowKeys.length===0){
@@ -71,7 +71,7 @@ class LicenseTable extends React.Component <Props,State> {
         self.setState({ selectedRowKeys:[]});
       }
     }
-    this.props.showMessage(message,action)
+    this.props.showMessage(message,action);
   }
 
   handleChange(pagination:any, filters:any, sorter:any):void{
@@ -80,7 +80,7 @@ class LicenseTable extends React.Component <Props,State> {
       filteredInfo: filters,
       sortedInfo: sorter,
     });
-  };
+  }
 
   filterByStatus(status :boolean):void{
     this.setState({
@@ -169,7 +169,7 @@ class LicenseTable extends React.Component <Props,State> {
         return (
             <div className="LicenseTable">
                   <div className="action-button-list" >
-                    <Button disabled={this.props.licenseInfoStore.licenseInfoDataSource.length?false:true} danger={true}  onClick={()=>{this.remove()}}> 
+                    <Button disabled={this.props.licenseInfoStore.licenseInfoDataSource.length?false:true} danger  onClick={()=>{this.remove()}}> 
                       Remove
                     </Button>
 

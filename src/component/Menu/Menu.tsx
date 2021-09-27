@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode } from 'react';
-import { Menu, Button } from 'antd';
+import { Menu, Button} from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined
@@ -7,6 +7,7 @@ import {
 import './Menu.styl';
 import {Link } from 'react-router-dom';
 import {MenuItem} from 'common/MenuConfig';
+import { MenuMode } from 'antd/lib/menu';
 
 
 export interface Props{
@@ -30,10 +31,11 @@ class MenuList extends React.Component<Props,State> {
     
     maxWidth=256;
 
-    menuConfig:object={
+    // eslint-disable-next-line no-undef
+    menuConfig={
       defaultSelectedKeys:['0'],
       mode:"inline",
-      theme:"dark"
+      theme:"dark",
     }
 
 
@@ -42,9 +44,9 @@ class MenuList extends React.Component<Props,State> {
       this.setState({
         collapsed: !this.state.collapsed,
       });
-    };
+    }
 
-    getMenuItem(menuItems:Array<MenuItem>,key:number=0):Array<any>{
+    getMenuItem(menuItems:Array<MenuItem>,key=0):Array<any>{
       let arr:Array<any>=[];
        
       for(let i=0;i<menuItems.length;i++){
@@ -82,7 +84,7 @@ class MenuList extends React.Component<Props,State> {
         return (
             <div className="Menu" style={{ width: this.state.collapsed?this.minWidth:this.maxWidth }}>
             <Menu
-              {...this.menuConfig}
+              {...(this.menuConfig as any)}
               inlineCollapsed={this.state.collapsed}
             >
               {menuItems}

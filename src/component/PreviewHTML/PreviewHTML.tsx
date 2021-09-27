@@ -5,7 +5,7 @@ import { Modal, Button } from 'antd';
 
 export interface Props{
   visible:boolean,
-  handleCancel:Function,
+  handleCancel:() => void,
   title:React.ReactNode,
   children:any
 }
@@ -24,20 +24,19 @@ class PreviewHTML extends React.Component<Props,State> {
 
     render():ReactElement {
         return (
-            <div className="PreviewHTML"  >
-               <Modal bodyStyle={{overflow:"auto",height:"500px"}} width="95%"
-          visible={this.props.visible}
-          title={this.props.title}
-          onCancel={()=>{this.props.handleCancel()}}
-          footer={[
-            <Button key="back" onClick={()=>{this.props.handleCancel()}}>
-              Cancel
-            </Button>
-          ]}
-        >
-          {<html  dangerouslySetInnerHTML={{__html: this.props.children}}></html>}
-        </Modal>
-            </div>
+          <div className="PreviewHTML">
+            <Modal bodyStyle={{overflow:"auto",height:"500px"}} width="95%"
+              visible={this.props.visible}
+              title={this.props.title}
+              onCancel={()=>{this.props.handleCancel()}}
+              footer={[
+                <Button key="back" onClick={()=>{this.props.handleCancel()}}>
+                  Cancel
+                </Button>
+              ]}>
+              {<html  dangerouslySetInnerHTML={{__html: this.props.children}}></html>}
+            </Modal>
+          </div>
         );
     }
 }
