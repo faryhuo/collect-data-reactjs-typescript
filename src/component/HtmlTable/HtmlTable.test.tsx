@@ -4,6 +4,7 @@ import HtmlTable from './HtmlTable';
 import stores from 'src/store/index';
 
 test('test HtmlTable if has the columns', () => {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   render(<HtmlTable showMessage={()=>{}} {...stores}></HtmlTable>);
   expect(screen.getByText("File Name")).toBeInTheDocument();
   expect(screen.getByText("Size")).toBeInTheDocument();

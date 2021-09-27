@@ -1,5 +1,4 @@
 import {observable, action,makeObservable} from 'mobx';
-import { Modal} from 'antd';
 
 export class HomePageStore {
 

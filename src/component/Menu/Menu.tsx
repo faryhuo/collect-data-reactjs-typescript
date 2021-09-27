@@ -7,7 +7,6 @@ import {
 import './Menu.styl';
 import {Link } from 'react-router-dom';
 import {MenuItem} from 'common/MenuConfig';
-import { MenuMode } from 'antd/lib/menu';
 
 
 export interface Props{

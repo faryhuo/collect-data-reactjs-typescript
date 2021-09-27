@@ -25,7 +25,7 @@ class HomePage extends React.Component<Props>{
         }
     }
 
-    destroyAll() {
+    destroyAll():void {
         Modal.destroyAll();
     }
 

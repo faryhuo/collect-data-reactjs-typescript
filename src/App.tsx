@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import HomePage from './page/HomePage/HomePage';
 import { observer,inject } from 'mobx-react';
 import {LicenseInfoStore} from 'store/LicenseInfoStore';
@@ -12,7 +12,7 @@ export interface Props{
 @inject('licenseInfoStore', 'homePageStore')
 @observer
 class App extends React.Component<Props> {
-  render() {
+  render():ReactElement {
     const stores = {
       licenseInfoStore: this.props.licenseInfoStore,
       homePageStore: this.props.homePageStore

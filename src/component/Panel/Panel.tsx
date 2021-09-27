@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Card } from 'antd';
 import { CaretUpOutlined,CaretDownOutlined} from '@ant-design/icons';
-import _ from 'lodash';
 import './Panel.styl';
 
 export interface Props{

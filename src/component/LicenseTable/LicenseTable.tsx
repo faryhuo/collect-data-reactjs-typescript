@@ -168,21 +168,23 @@ class LicenseTable extends React.Component <Props,State> {
       const columns=this.getColumns();
         return (
             <div className="LicenseTable">
-                  <div className="action-button-list" >
-                    <Button disabled={this.props.licenseInfoStore.licenseInfoDataSource.length?false:true} danger  onClick={()=>{this.remove()}}> 
-                      Remove
-                    </Button>
+              <div className="action-button-list" >
+                <Button disabled={this.props.licenseInfoStore.licenseInfoDataSource.length?false:true} danger  onClick={()=>{this.remove()}}> 
+                  Remove
+                </Button>
 
-                    <Radio.Group
-                      options={this.getStatusOptions()}
-                      onChange={this.changeStatusOptions.bind(this)}
-                      value={this.state.filterByStatus}
-                      optionType="button"
-                      buttonStyle="solid"
-                    />
-                  </div>
-                  <Table pagination={{ position: ["bottomLeft"],showTotal:(total, range) => `${range[0]}-${range[1]} of ${total} items`}}
-                   onChange={(pagination, filters, sorter)=>{this.handleChange(pagination, filters, sorter)}} rowSelection={rowSelection} size="small" bordered columns={columns} dataSource={[...this.props.licenseInfoStore.licenseInfoDataSource]} />
+                <Radio.Group
+                  options={this.getStatusOptions()}
+                  onChange={this.changeStatusOptions.bind(this)}
+                  value={this.state.filterByStatus}
+                  optionType="button"
+                  buttonStyle="solid"
+                />
+              </div>
+              <Table pagination={{ position: ["bottomLeft"],showTotal:(total, range) => `${range[0]}-${range[1]} of ${total} items`}}
+                onChange={(pagination, filters, sorter)=>{this.handleChange(pagination, filters, sorter)}} 
+                rowSelection={rowSelection} size="small" bordered columns={columns} 
+                dataSource={[...this.props.licenseInfoStore.licenseInfoDataSource]} />
           </div>
         );
     }
