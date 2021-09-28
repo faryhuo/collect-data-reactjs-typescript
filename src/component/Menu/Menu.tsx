@@ -60,7 +60,7 @@ class MenuList extends React.Component<Props,State> {
         }else{
           link=<span>{menuItem.text}</span>;
         }
-        menuItem.icon && (props.icon=React.createElement(menuItem.icon,null,null));
+        menuItem.icon && (props.icon=menuItem.icon);
         if(!menuItem.subItem){
           let element=(<Menu.Item {...props}>
                         {link}

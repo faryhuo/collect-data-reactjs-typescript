@@ -25,7 +25,7 @@ class FinishPage extends React.Component<Props> {
                 extra={[
                   <Button key={1} type="primary" onClick={()=>{this.props.nextStep()}}>
                     Go Home
-                  </Button>,
+                  </Button>
                 ]}
               />
           </div>

@@ -1,0 +1,5 @@
+config/**
+public/**
+build/**
+**/*.test.tsx
+**/*.test.ts
