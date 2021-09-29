@@ -54,7 +54,7 @@ class MainPage extends React.Component<Props,State> {
       switch(this.state.current){
         case 0:return <CollectData homePageStore={this.props.homePageStore} licenseInfoStore={this.props.licenseInfoStore}
          {...propsAttr} nextStep={()=>this.nextStep(1)}></CollectData>
-        case 1:return <ConfirmPage licenseInfoStore={this.props.licenseInfoStore}
+        case 1:return <ConfirmPage licenseInfoStore={this.props.licenseInfoStore} homePageStore={this.props.homePageStore}
          {...propsAttr} nextStep={()=>this.nextStep(2)}></ConfirmPage>
         case 2:return <ExcelUploadPage homePageStore={this.props.homePageStore} licenseInfoStore={this.props.licenseInfoStore}
         {...propsAttr} nextStep={()=>this.nextStep(3)}></ExcelUploadPage>

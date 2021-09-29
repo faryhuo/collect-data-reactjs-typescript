@@ -13,28 +13,30 @@ class MenuConfig{
         text: "Generate License File",
         link: "LicenseGenerator",
         icon: <PieChartOutlined/>
-    },{
-        text: "Menu1",
-        icon: <PieChartOutlined/>,
-        subItem: [
-            {
-                text: "Menu2",
-                icon: <PieChartOutlined/>,
-                subItem: [
-                    {
-                        text: "Menu3",
-                        icon: <PieChartOutlined/>,
-                        subItem: [
-                            {
-                                text: "Menu4",
-                                link: "Menu4",
-                                icon: <PieChartOutlined/>}
-                        ]
-                    }
-                ]
-            }
-        ]
-    }];
+    },
+    // {
+    //     text: "Menu1",
+    //     icon: <PieChartOutlined/>,
+    //     subItem: [
+    //         {
+    //             text: "Menu2",
+    //             icon: <PieChartOutlined/>,
+    //             subItem: [
+    //                 {
+    //                     text: "Menu3",
+    //                     icon: <PieChartOutlined/>,
+    //                     subItem: [
+    //                         {
+    //                             text: "Menu4",
+    //                             link: "Menu4",
+    //                             icon: <PieChartOutlined/>}
+    //                     ]
+    //                 }
+    //             ]
+    //         }
+    //     ]
+    // }
+];
 }
 const {menuItms}=new MenuConfig();
 export default menuItms;

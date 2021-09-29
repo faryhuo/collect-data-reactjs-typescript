@@ -1,10 +1,9 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { Table, Button,Alert,Radio  } from 'antd';
 import { observer} from 'mobx-react';
+import { LicenseInfoStore } from 'src/store';
 import './LicenseTable.styl';
 
-
-import { LicenseInfoStore } from 'store/LicenseInfoStore';
 
 export interface Props{
   licenseInfoStore:LicenseInfoStore,

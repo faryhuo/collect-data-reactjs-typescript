@@ -83,18 +83,18 @@ class HomePage extends React.Component<Props>{
         return (
             <div className="HomePage" >
                 <Router>          
-                <div className="menu-wrapper">
-                     <MenuList menuItems={menuItems}></MenuList>                    
-                </div>
-                <div className="contain-wrapper">      
-                 <Switch>   
-                    <Route path="/LicenseGenerator" exact
-                     render={()=>licenseGenerator}
-                    ></Route>
-                    <Redirect to="/LicenseGenerator" from='/' /> 
+                    <div className="menu-wrapper">
+                        <MenuList menuItems={menuItems}></MenuList>                    
+                    </div>
+                    <div className="contain-wrapper">      
+                    <Switch>   
+                        <Route path="/LicenseGenerator" exact
+                            render={()=>licenseGenerator}
+                        ></Route>
+                        <Redirect to="/LicenseGenerator" from='/' /> 
                     </Switch>
-                </div>
-                <Loading display={this.props.homePageStore.loading}></Loading>
+                    </div>
+                    <Loading display={this.props.homePageStore.loading}></Loading>
                 </Router>
             </div>
         );

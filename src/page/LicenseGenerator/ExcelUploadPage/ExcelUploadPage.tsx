@@ -1,13 +1,11 @@
 import React, { ReactElement, ReactNode } from 'react';
-import { Upload, Button,Modal,Alert } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
+import { Button,Modal,Alert } from 'antd';
 import './ExcelUploadPage.styl';
 import axios from 'axios';
 import { observer } from 'mobx-react';
-import {Panel} from 'src/component';
+import {Panel,Split,DraggerUpload} from 'src/component';
 import {LicenseInfoStore,HomePageStore} from 'src/store';
 
-const { Dragger } = Upload;
 
 export interface Props {
     licenseInfoStore: LicenseInfoStore,
@@ -26,11 +24,14 @@ interface State {
 }
 
 interface UploadProps {
+    accept:string,
     multiple: boolean,
     fileList:Array<any>,
     uploading:boolean,
     beforeUpload:(file:any)=>void,
-    showUploadList:any
+    showUploadList:any,
+    buttonText:string,
+    hint:string
 }
 
 @observer
@@ -57,6 +58,10 @@ class ExcelUploadPage extends React.Component<Props,State>{
     getUploadProps():UploadProps{
         let self=this;
         return {
+            accept:".xls,.xlsx",
+            buttonText:"Click or drag file to this area to upload",
+            hint:`Support for a single or bulk upload. Strictly prohibit from uploading company data or other
+            band files`,
             multiple:false,
             showUploadList:{
                 showDownloadIcon: false,
@@ -176,6 +181,12 @@ class ExcelUploadPage extends React.Component<Props,State>{
           data: formData})
           .then((res) => { 
             console.log(res);
+            if(res?.data?.message){
+                const errorMessage=res?.data?.message;
+                self.props.showErrorMessage(errorMessage)
+                self.props.homePageStore.closeLoading();                
+                return;
+            }
             self.downloadFile();
             self.props.nextStep();
         }).catch(function(error){
@@ -193,21 +204,12 @@ class ExcelUploadPage extends React.Component<Props,State>{
 
 
     render() :ReactElement{
-        const {beforeUpload,...uploadProps}=this.getUploadProps();
+        const uploadProps=this.getUploadProps();
         return (
             <div className="ExcelUploadPage" >
                 <Panel title="Upload the excel file">
-                    <Dragger beforeUpload={beforeUpload as any} {...uploadProps} accept=".xls,.xlsx">
-                        <p className="ant-upload-drag-icon">
-                        <InboxOutlined />
-                        </p>
-                        <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                        <p className="ant-upload-hint">
-                        Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-                        band files
-                        </p>
-                    </Dragger>
-                    <div className="split"></div>
+                    <DraggerUpload {...uploadProps}></DraggerUpload>
+                    <Split></Split>
                     <div>
                         {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" />}
                     </div>  
