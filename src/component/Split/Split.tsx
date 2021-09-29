@@ -1,14 +1,14 @@
 import React, { ReactElement } from 'react';
-import './Header.styl';
+import './Split.styl';
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Props{
-  title:React.ReactNode
+  height?:number
 }
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface State{
-  //
 }
 
-class Header extends React.Component<Props,State> {
+class Split extends React.Component<Props,State> {
   constructor(props:Props) {
         super(props);
         //react state
@@ -19,11 +19,11 @@ class Header extends React.Component<Props,State> {
 
     render():ReactElement {
         return (
-            <div className="Header">
+          <div className="Split" style={{height:(this.props.height || 15)}}>
 
           </div>
         );
     }
 }
 
-export default Header;
+export default Split;

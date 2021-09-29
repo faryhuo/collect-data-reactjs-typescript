@@ -1,9 +1,9 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { Button} from 'antd';
-import LicenseTable from 'component/LicenseTable/LicenseTable';
+import {LicenseTable,Panel} from 'src/component';
+import {LicenseInfoStore} from 'src/store'
 import './ConfirmPage.styl';
-import Panel from 'component/Panel/Panel';
-import {LicenseInfoStore} from 'store/LicenseInfoStore'
+
 export interface Props {
   showMessage:(msg:string | ReactNode,action:{onOk?:()=>void,onCancel?:()=>void}) => void,
   nextStep:()=>void,

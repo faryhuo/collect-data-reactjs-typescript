@@ -1,17 +1,17 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import { Card } from 'antd';
 import { CaretUpOutlined,CaretDownOutlined} from '@ant-design/icons';
 import './Panel.styl';
 
 export interface Props{
-  title:any
+  title: ReactNode | string
 }
 interface State{
-  display:boolean
+  display: boolean
 }
 
 class Panel extends React.Component<Props,State> {
-  constructor(props:Props) {
+  constructor(props: Props) {
         super(props);
         //react state
         this.state={
@@ -19,14 +19,14 @@ class Panel extends React.Component<Props,State> {
         }
     }
 
-    showOrHideContent():void{
+    showOrHideContent(): void{
       this.setState({
         display:!this.state.display
       });
     }
 
 
-    render():ReactElement {
+    render(): ReactElement {
       // const childrenWithProps = React.Children.map((children, child) => React.cloneElement(child));
       // let supportedInputTypes:any=[];
       // let newChildren = React.Children.map(this.props.children,function(child:any) {

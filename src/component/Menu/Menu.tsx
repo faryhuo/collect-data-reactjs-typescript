@@ -45,8 +45,8 @@ class MenuList extends React.Component<Props,State> {
       });
     }
 
-    getMenuItem(menuItems:Array<MenuItem>,key=0):Array<any>{
-      let arr:Array<any>=[];
+    getMenuItem(menuItems:Array<MenuItem>,key=0):Array<ReactNode>{
+      let arr:Array<ReactNode>=[];
        
       for(let i=0;i<menuItems.length;i++){
         let menuItem:MenuItem=menuItems[i];
@@ -79,20 +79,20 @@ class MenuList extends React.Component<Props,State> {
     }
 
     render() :ReactElement{
-        const menuItems=this.getMenuItem(this.props.menuItems);
-        return (
-            <div className="Menu" style={{ width: this.state.collapsed?this.minWidth:this.maxWidth }}>
-            <Menu
-              {...(this.menuConfig as any)}
-              inlineCollapsed={this.state.collapsed}
-            >
-              {menuItems}
+      const menuItems=this.getMenuItem(this.props.menuItems);
+      return (
+        <div className="Menu" style={{ width: this.state.collapsed?this.minWidth:this.maxWidth }}>
+          <Menu
+            {...(this.menuConfig as any)}
+            inlineCollapsed={this.state.collapsed}
+          >
+            {menuItems}
             <Button type="primary" onClick={()=>{this.toggleCollapsed()}} style={{ marginBottom: 16 }}>
               {this.state.collapsed ? <MenuUnfoldOutlined></MenuUnfoldOutlined> : <MenuFoldOutlined></MenuFoldOutlined>}
             </Button>
-            </Menu>
-          </div>
-        );
+          </Menu>
+        </div>
+      );
     }
 }
 

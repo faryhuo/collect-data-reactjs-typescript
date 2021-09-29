@@ -8,9 +8,8 @@ export interface MenuItem{
     subItem?:Array<MenuItem> | null,
     icon?:ReactNode
 }
-export default (() => {
-
-    const menuItems:Array<MenuItem> = [{
+class MenuConfig{
+    menuItms:Array<MenuItem> = [{
         text: "Generate License File",
         link: "LicenseGenerator",
         icon: <PieChartOutlined/>
@@ -36,6 +35,6 @@ export default (() => {
             }
         ]
     }];
-
-    return menuItems;
-})();
+}
+const {menuItms}=new MenuConfig();
+export default menuItms;

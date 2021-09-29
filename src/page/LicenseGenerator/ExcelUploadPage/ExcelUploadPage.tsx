@@ -4,9 +4,8 @@ import { InboxOutlined } from '@ant-design/icons';
 import './ExcelUploadPage.styl';
 import axios from 'axios';
 import { observer } from 'mobx-react';
-import Panel from 'component/Panel/Panel';
-import {LicenseInfoStore} from 'store/LicenseInfoStore';
-import {HomePageStore} from 'store/HomePageStore';
+import {Panel} from 'src/component';
+import {LicenseInfoStore,HomePageStore} from 'src/store';
 
 const { Dragger } = Upload;
 

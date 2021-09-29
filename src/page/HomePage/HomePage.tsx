@@ -1,13 +1,13 @@
 import React, { ReactElement, ReactNode } from 'react';
-import 'page/HomePage/HomePage.styl';
-import MenuList from 'component/Menu/Menu';
+import {MenuList,Loading} from 'src/component';
 import LicenseGenerator from 'page/LicenseGenerator';
-import { Spin,Modal} from 'antd';
+import { Modal} from 'antd';
 import { observer } from 'mobx-react';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { HomePageStore,LicenseInfoStore } from 'store/index';
+import { HomePageStore,LicenseInfoStore } from 'src/store';
 import {HashRouter as Router,Route,Redirect,Switch} from 'react-router-dom';
 import menuItems from 'common/MenuConfig';
+import 'page/HomePage/HomePage.styl';
 import 'antd/dist/antd.css';
 
 export interface Props{
@@ -74,7 +74,7 @@ class HomePage extends React.Component<Props>{
 
 
     render() :ReactElement{
-        const mainPage=(
+        const licenseGenerator=(
             <LicenseGenerator 
                     homePageStore={this.props.homePageStore} licenseInfoStore={this.props.licenseInfoStore}
                     showMessage={this.showMessage.bind(this)}
@@ -89,14 +89,12 @@ class HomePage extends React.Component<Props>{
                 <div className="contain-wrapper">      
                  <Switch>   
                     <Route path="/LicenseGenerator" exact
-                     render={()=>mainPage}
+                     render={()=>licenseGenerator}
                     ></Route>
                     <Redirect to="/LicenseGenerator" from='/' /> 
                     </Switch>
                 </div>
-                {this.props.homePageStore.loading && <div className="loading">                
-                    <Spin size="large" tip="Loading..."></Spin>
-                </div>}
+                <Loading display={this.props.homePageStore.loading}></Loading>
                 </Router>
             </div>
         );

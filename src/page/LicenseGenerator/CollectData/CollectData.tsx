@@ -1,15 +1,12 @@
 import React, { ReactElement, ReactNode } from 'react';
-import { Upload, Button} from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
-import './CollectData.styl';
-import HtmlTable from 'component/HtmlTable/HtmlTable';
-import Panel from 'component/Panel/Panel';
+import {Button} from 'antd';
+import {HtmlTable,Panel,DraggerUpload,Split} from 'src/component';
 import {FileNew, LicenseInfoStore} from 'store/LicenseInfoStore'
 import {HomePageStore} from 'store/HomePageStore'
 import { observer } from 'mobx-react';
 import axios from 'axios';
+import './CollectData.styl';
 
-const { Dragger } = Upload;
 export interface Props {
     licenseInfoStore: LicenseInfoStore,
     homePageStore: HomePageStore,
@@ -23,12 +20,15 @@ interface State {
 }
 
 interface UploadProps {
+    accept:string,
     multiple: boolean,
     name:string,
     showUploadList:boolean,
     fileList:Array<any>,
     uploading:boolean,
-    beforeUpload:(file:any)=>void
+    beforeUpload:(file:any)=>void,
+    buttonText:string,
+    hint:string
 }
 
 @observer
@@ -43,8 +43,11 @@ class CollectData extends React.Component<Props,State> {
     }
 
     getUploadProps():UploadProps{
-        let self:CollectData=this;
+        let self=this;
         return {
+            accept:".htm,.html",
+            buttonText:"Click or drag file to this area to upload",
+            hint:`Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files`,
             multiple:true,
             name:"files",
             showUploadList:false,
@@ -111,29 +114,16 @@ class CollectData extends React.Component<Props,State> {
 
 
     render() :ReactElement{
-        const {beforeUpload,...uploadProps}=this.getUploadProps();
+        const uploadProps=this.getUploadProps();
         return (
             <div className="CollectData" >
                 {/* <div style={{"textAlign":"center"}}>
                     <h2>Upload the license information file (html file)</h2>
                 </div> */}
                 <Panel title="Upload the license information file (html file)">
-                <div className="upload-control">
-                    <Dragger beforeUpload={beforeUpload as any} {...uploadProps} accept=".htm,.html">
-                        <p className="ant-upload-drag-icon">
-                        <InboxOutlined />
-                        </p>
-                        <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                        <p className="ant-upload-hint">
-                        Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-                        band files
-                        </p>
-                    </Dragger>
-                </div>
+                    <DraggerUpload {...uploadProps}></DraggerUpload>
                 </Panel>
-                <div className="split">
-                    
-                </div>
+                <Split></Split>
                 <Panel title="Upload file information">
                     <div className="data-list">
                         <HtmlTable licenseInfoStore={this.props.licenseInfoStore} showMessage={this.props.showMessage}></HtmlTable>

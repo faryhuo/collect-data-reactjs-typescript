@@ -5,8 +5,7 @@ import ExcelUploadPage from 'page/LicenseGenerator/ExcelUploadPage/ExcelUploadPa
 import FinishPage from 'page/LicenseGenerator/FinishPage/FinishPage';
 import ConfirmPage from 'page/LicenseGenerator/ConfirmPage/ConfirmPage';
 import { Steps} from 'antd';
-import {LicenseInfoStore} from 'store/LicenseInfoStore'
-import {HomePageStore} from 'store/HomePageStore'
+import {LicenseInfoStore,HomePageStore} from 'src/store'
 const { Step} = Steps;
 
 export interface Props{
