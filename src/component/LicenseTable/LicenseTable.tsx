@@ -1,8 +1,9 @@
 import React, { ReactElement, ReactNode } from 'react';
-import { Table, Button,Alert,Radio  } from 'antd';
+import {  Button,Alert,Radio  } from 'antd';
 import { observer} from 'mobx-react';
 import { LicenseInfoStore } from 'src/store';
 import './LicenseTable.styl';
+import BaseTable from 'component/BaseTable/BaseTable';
 
 
 export interface Props{
@@ -157,34 +158,35 @@ class LicenseTable extends React.Component <Props,State> {
       });
     }
 
-    render():ReactElement{
-      const rowSelection = {
-        selectedRowKeys:this.state.selectedRowKeys,
-        onChange:(selectedRowKeys:any)=>{
-           this.onSelectChange(selectedRowKeys)
-        }
+    getTableProps(){
+      return {
+        columns:this.getColumns(),
+        dataSource:this.props.licenseInfoStore.licenseInfoDataSource,
+        onChange:this.handleChange.bind(this),
+        onSelectChange:this.onSelectChange.bind(this),
+        selectedRowKeys:this.state.selectedRowKeys
       }
-      const columns=this.getColumns();
-        return (
-          <div className="LicenseTable">
-            <div className="action-button-list" >
-              <Button disabled={this.props.licenseInfoStore.licenseInfoDataSource.length?false:true} danger  onClick={()=>{this.remove()}}> 
-                Remove
-              </Button>
+    }
 
-              <Radio.Group
-                options={this.getStatusOptions()}
-                onChange={this.changeStatusOptions.bind(this)}
-                value={this.state.filterByStatus}
-                optionType="button"
-                buttonStyle="solid"
-              />
-            </div>
-            <Table pagination={{ position: ["bottomLeft"],showTotal:(total, range) => `${range[0]}-${range[1]} of ${total} items`}}
-              onChange={(pagination, filters, sorter)=>{this.handleChange(pagination, filters, sorter)}} 
-              rowSelection={rowSelection} size="small" bordered columns={columns} 
-              dataSource={[...this.props.licenseInfoStore.licenseInfoDataSource]} />
+    render():ReactElement{
+      const tableProps=this.getTableProps();
+      return (
+        <div className="LicenseTable">
+          <div className="action-button-list" >
+            <Button disabled={this.props.licenseInfoStore.licenseInfoDataSource.length?false:true} danger  onClick={()=>{this.remove()}}> 
+              Remove
+            </Button>
+
+            <Radio.Group
+              options={this.getStatusOptions()}
+              onChange={this.changeStatusOptions.bind(this)}
+              value={this.state.filterByStatus}
+              optionType="button"
+              buttonStyle="solid"
+            />
           </div>
+          <BaseTable {...(tableProps as any)}></BaseTable>
+        </div>
         );
     }
 }

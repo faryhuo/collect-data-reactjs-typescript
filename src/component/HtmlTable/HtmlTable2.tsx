@@ -118,31 +118,43 @@ class HtmlTable extends React.Component<Props,State>   {
     }
   }
 
+  isValidFiled(key:string,object:IrecordType): key is keyof typeof object{
+    return key in object;
+  }
+
   getColumns():ColumnType<IrecordType>[] {
+
+    const ColumnField={
+      name:"name",
+      size:"size",
+      lastModifiedDate:"lastModifiedDate",
+      file:"file"
+    }
+
     return [{
           title: 'File Name',
-          dataIndex: 'name',
-          key:"name",
+          dataIndex: ColumnField.name,
+          key:ColumnField.name,
           sorter:this.order.bind(this),
-          sortOrder: this.getSortOrder.call(this,"name")
+          sortOrder: this.getSortOrder.call(this,ColumnField.name)
         },{
           title:"Size",
-          dataIndex:"size",
+          dataIndex:ColumnField.size,
           render: (size:number) =>{
             let text=_.round(size/1024, 2) +" kb";
             return <span>{text}</span>;
           },
           sorter:this.order.bind(this),
-          sortOrder: this.getSortOrder.call(this,"size")
+          sortOrder: this.getSortOrder.call(this,ColumnField.size)
         },{
           title:"last Modified Date",
-          dataIndex:"lastModifiedDate",
+          dataIndex:ColumnField.lastModifiedDate,
           render:(lastModifiedDate:Date) => <span>{lastModifiedDate && lastModifiedDate.toDateString()}</span>,
           sorter:this.order.bind(this),
-          sortOrder: this.getSortOrder.call(this,"lastModifiedDate")
+          sortOrder: this.getSortOrder.call(this,ColumnField.lastModifiedDate)
         },{
           title:"Action",
-          dataIndex:"file",
+          dataIndex:ColumnField.file,
           render: (file:any) => <Button type="link" onClick={()=>{this.review(file)}}>review</Button>,
         }];
     }

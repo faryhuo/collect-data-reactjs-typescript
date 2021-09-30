@@ -1,6 +1,7 @@
 import { Table, TableProps } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import React, { ReactElement } from 'react';
+import _ from 'lodash';
 import './BaseTable.styl';
 
 export interface otherProps<T,V extends keyof T>{
@@ -25,27 +26,35 @@ class BaseTable<T extends object,V extends keyof T> extends React.Component<othe
     selectAble=this.props.selectAble || true;
 
     getDefaultProps():TableProps<T>{
-      const {bordered,pagination,size,rowSelection} =this.props;
       const defaultRowSelection :any= this.selectAble?{
         selectedRowKeys:this.props.selectedRowKeys,
         onChange:(selectedRowKeys:Array<V>)=>{
            this.props.onSelectChange(selectedRowKeys)
         }
       }:undefined;
-      const props={
-        bordered:bordered || true,
-        pagination:pagination || { 
+      const props:any={
+        bordered:true,
+        pagination:{ 
           position: ["bottomLeft"],
           showTotal:(total:number, range:any) => `${range[0]}-${range[1]} of ${total} items`
         },
-        size:size || "small",
-        rowSelection:rowSelection || defaultRowSelection,
-        columns:this.props.columns
+        size:"small",
+        rowSelection: defaultRowSelection,
+      }
+      const excludeFiled=["dataSource","selectedRowKeys","onSelectChange","selectAble"];
+      for(const key in this.props){
+        if(_.indexOf(excludeFiled,key)===-1){
+          if(this.isValidKey(key,this.props)){
+              props[key]=this.props[key];            
+          }
+        }
       }
       return props;
     }
 
-
+    isValidKey(key: string  , object:TableProps<T>): key is keyof typeof object {
+      return key in object;
+    }
 
 
 

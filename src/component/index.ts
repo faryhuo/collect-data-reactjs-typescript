@@ -1,6 +1,6 @@
 import DraggerUpload from "./DraggerUpload/DraggerUpload";
 import Header from "./Header/Header";
-import HtmlTable from "./HtmlTable/HtmlTable";
+import HtmlTable from "./HtmlTable/HtmlTable2";
 import LicenseTable from "./LicenseTable/LicenseTable";
 import Loading from "./Loading/Loading";
 import MenuList from "./Menu/Menu";
