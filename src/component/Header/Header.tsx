@@ -1,5 +1,7 @@
 import Avatar from 'component/Avatar/Avatar';
 import React, { ReactElement } from 'react';
+import { Menu } from 'antd';
+
 import './Header.styl';
 export interface Props{
   icon:React.ReactNode,
@@ -17,6 +19,25 @@ class Header extends React.Component<Props,State> {
         this.state={
         }
     }
+    
+    getActionMenu():ReactElement{
+      return (<Menu><Menu.Item>
+              <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+                1st menu item
+              </a>
+            </Menu.Item>
+            <Menu.Item>
+              <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+                2nd menu item
+              </a>
+            </Menu.Item>
+            <Menu.Item>
+              <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
+                3rd menu item
+              </a>
+            </Menu.Item>
+          </Menu>)
+    }
 
 
     render():ReactElement {
@@ -24,7 +45,7 @@ class Header extends React.Component<Props,State> {
           <div className="Header">
             <div className="header-icon">{this.props.icon}</div>
             <div className="header-content"></div>
-            <div className="header-avatar"><Avatar username={this.props.username || 'admin'}></Avatar></div>
+            <div className="header-avatar"><Avatar menu={this.getActionMenu()} username={this.props.username || 'admin'}></Avatar></div>
           </div>
         );
     }
