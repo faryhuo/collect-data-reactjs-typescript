@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode } from 'react';
-import {MenuList,Loading} from 'src/component';
+import {MenuList,Loading, Header} from 'src/component';
 import LicenseGenerator from 'page/LicenseGenerator';
 import { Modal} from 'antd';
 import { observer } from 'mobx-react';
@@ -87,6 +87,7 @@ class HomePage extends React.Component<Props>{
                         <MenuList menuItems={menuItems}></MenuList>                    
                     </div>
                     <div className="contain-wrapper">      
+                    <Header icon={<div>Admin tool</div>}></Header>
                     <Switch>   
                         <Route path="/LicenseGenerator" exact
                             render={()=>licenseGenerator}

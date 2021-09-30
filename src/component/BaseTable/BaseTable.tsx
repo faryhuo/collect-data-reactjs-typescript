@@ -25,7 +25,7 @@ class BaseTable<T extends object,V extends keyof T> extends React.Component<othe
     }
     selectAble=this.props.selectAble || true;
 
-    getDefaultProps():TableProps<T>{
+    getTableProps():TableProps<T>{
       const defaultRowSelection :any= this.selectAble?{
         selectedRowKeys:this.props.selectedRowKeys,
         onChange:(selectedRowKeys:Array<V>)=>{
@@ -59,7 +59,7 @@ class BaseTable<T extends object,V extends keyof T> extends React.Component<othe
 
 
     render():ReactElement {
-      const props=this.getDefaultProps();
+      const props=this.getTableProps();
         return (
             <div className="BaseTable">
             <Table {...props} dataSource={[...this.props.dataSource as any]}/>
