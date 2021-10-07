@@ -4,11 +4,23 @@
   top: 0
   bottom: 0
   height: 100%
+  display: flex
+  flex-direction: column
+  .icon
+    display: flex
+    img
+      height: 50px
+      flex:0 0 80px
+    .title
+      flex:1
+      font-size: 22px  
+      font-weight: 800
+      line-height: 50px
+      height: 50px
+      overflow:hidden
+      text-align: center
   .ant-menu.ant-menu-root
-    position: relative
-    top: 0
-    bottom: 0
-    height: 100%
+    flex:1
   .ant-btn
     position: absolute;
     bottom: 0;

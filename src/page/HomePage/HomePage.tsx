@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode } from 'react';
-import {MenuList,Loading, Header} from 'src/component';
+import {Menu,Loading, Header} from 'src/component';
 import LicenseGenerator from 'page/LicenseGenerator';
 import { Modal} from 'antd';
 import { observer } from 'mobx-react';
@@ -9,6 +9,7 @@ import {HashRouter as Router,Route,Redirect,Switch} from 'react-router-dom';
 import menuItems from 'common/MenuConfig';
 import 'page/HomePage/HomePage.styl';
 import 'antd/dist/antd.css';
+import logo from 'src/logo.svg';
 
 export interface Props{
     homePageStore:HomePageStore,
@@ -84,10 +85,10 @@ class HomePage extends React.Component<Props>{
             <div className="HomePage" >
                 <Router>          
                     <div className="menu-wrapper">
-                        <MenuList menuItems={menuItems}></MenuList>                    
+                        <Menu icon={{img:logo,title:"Admin Tool"}} menuItems={menuItems}></Menu>                    
                     </div>
                     <div className="contain-wrapper">      
-                    <Header icon={<div>Admin tool</div>}></Header>
+                    <Header searchInput={{value:"AAA"}} icon={<div>Admin tool</div>}></Header>
                     <Switch>   
                         <Route path="/LicenseGenerator" exact
                             render={()=>licenseGenerator}

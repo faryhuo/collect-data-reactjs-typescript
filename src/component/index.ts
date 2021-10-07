@@ -1,12 +1,13 @@
 import DraggerUpload from "./DraggerUpload/DraggerUpload";
 import Header from "./Header/Header";
-import HtmlTable from "./HtmlTable/HtmlTable2";
+import HtmlTable from "./HtmlTable/HtmlTable";
 import LicenseTable from "./LicenseTable/LicenseTable";
 import Loading from "./Loading/Loading";
-import MenuList from "./Menu/Menu";
+import Menu from "./Menu/Menu";
 import Panel from "./Panel/Panel";
 import PreviewHTML from "./PreviewHTML/PreviewHTML";
 import Split from "./Split/Split";
+import SearchInput from "./SearchInput/SearchInput";
 
 export {
     DraggerUpload,
@@ -14,8 +15,9 @@ export {
     HtmlTable,
     LicenseTable,
     Loading,
-    MenuList,
+    Menu,
     Panel,
     PreviewHTML,
-    Split
+    Split,
+    SearchInput
 }

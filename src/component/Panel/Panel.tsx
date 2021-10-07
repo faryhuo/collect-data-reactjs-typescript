@@ -4,7 +4,8 @@ import { CaretUpOutlined,CaretDownOutlined} from '@ant-design/icons';
 import './Panel.styl';
 
 export interface Props{
-  title: ReactNode | string
+  title: ReactNode | string,
+  display?:boolean
 }
 interface State{
   display: boolean
@@ -15,7 +16,7 @@ class Panel extends React.Component<Props,State> {
         super(props);
         //react state
         this.state={
-          display:true
+          display:props.display!=null? props.display:true
         }
     }
 

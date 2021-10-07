@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode } from 'react';
-import { Menu, Button} from 'antd';
+import { Menu as AntdMenu, Button} from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined
@@ -10,14 +10,18 @@ import {MenuItem} from 'common/MenuConfig';
 
 
 export interface Props{
-  menuItems:Array<MenuItem>
+  menuItems:Array<MenuItem>,
+  icon?:{
+   img:any, 
+   title:string
+  }
 }
 interface State{
   collapsed:boolean
 }
-const { SubMenu } = Menu;
+const { SubMenu } = AntdMenu;
 
-class MenuList extends React.Component<Props,State> {
+class Menu extends React.Component<Props,State> {
   constructor(props:Props) {
         super(props);
         //react state
@@ -62,9 +66,9 @@ class MenuList extends React.Component<Props,State> {
         }
         menuItem.icon && (props.icon=menuItem.icon);
         if(!menuItem.subItem){
-          let element=(<Menu.Item {...props}>
+          let element=(<AntdMenu.Item {...props}>
                         {link}
-                    </Menu.Item>);
+                    </AntdMenu.Item>);
           arr.push(element);
         }else{
           let element=(<SubMenu  {...props} title={menuItem.text} >
@@ -82,7 +86,11 @@ class MenuList extends React.Component<Props,State> {
       const menuItems=this.getMenuItem(this.props.menuItems);
       return (
         <div className="Menu" style={{ width: this.state.collapsed?this.minWidth:this.maxWidth }}>
-          <Menu
+          {this.props.icon && <div className="icon">
+            <img src={this.props.icon.img}></img>
+            <div className="title">{this.props.icon.title}</div>
+          </div>}
+          <AntdMenu
             {...(this.menuConfig as any)}
             inlineCollapsed={this.state.collapsed}
           >
@@ -90,10 +98,10 @@ class MenuList extends React.Component<Props,State> {
             <Button type="primary" onClick={()=>{this.toggleCollapsed()}} style={{ marginBottom: 16 }}>
               {this.state.collapsed ? <MenuUnfoldOutlined></MenuUnfoldOutlined> : <MenuFoldOutlined></MenuFoldOutlined>}
             </Button>
-          </Menu>
+          </AntdMenu>
         </div>
       );
     }
 }
 
-export default MenuList;
+export default Menu;

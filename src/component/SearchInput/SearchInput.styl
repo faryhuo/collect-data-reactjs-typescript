@@ -1,0 +1,21 @@
+.SearchInput
+  border:1px solid #ebebeb
+  border-radius: 20px
+  padding: 2px
+  padding-right: 8px
+  max-width: 300px
+  &.slow
+    animation:run 1s
+  &.hide 
+    border:none 
+  @keyframes run 
+      0%
+          width:0
+      33%
+          width:100px
+      67%
+          width:200px
+      100%
+          width:300px
+  .ant-input-search-button
+    border:none

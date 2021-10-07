@@ -1,27 +1,40 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import React, { ReactElement, ReactNode } from 'react';
-import { Table, Button } from 'antd';
+import { Button } from 'antd';
 import { observer} from 'mobx-react';
 import _ from 'lodash';
 import './HtmlTable.styl';
 import PreviewHTML from 'component/PreviewHTML/PreviewHTML';
 import { LicenseInfoStore } from 'store/LicenseInfoStore';
+import BaseTable,{} from 'component/BaseTable/BaseTable';
+import { ColumnType} from 'antd/lib/table';
+import { SortOrder } from 'antd/lib/table/interface';
 
 export interface Props{
   licenseInfoStore:LicenseInfoStore,
   showMessage:(msg:string | ReactNode,action:{onOk?:()=>void,onCancel?:()=>void}) => void
 }
+
+
 interface State{
-  filteredInfo: any,
-  sortedInfo: any,
   preview:boolean,
   currentFileName:string,
-  selectedRowKeys: Array<number>, // Check here to configure the default column
   loading: boolean,
-  fileContent:string | null
+  fileContent:string | null,
+  selectedRowKeys:number[],
+  filteredInfo:any,
+  sortedInfo:any
+}
+
+declare interface IrecordType{
+  size:number,
+  lastModifiedDate:Date | null,
+  name:string,
+  file:any
 }
 
 @observer
-class HtmlTable extends React.Component<Props,State> {
+class HtmlTable extends React.Component<Props,State>   {
   constructor(props:Props) {
     super(props);
     // react state
@@ -37,12 +50,12 @@ class HtmlTable extends React.Component<Props,State> {
   }
 
 
-  getSortOrder(field:string):boolean | string {
+  getSortOrder(field:string):SortOrder | undefined {
     let sortedInfo = this?.state?.sortedInfo;
     if(sortedInfo){
       return sortedInfo.field === field && sortedInfo.order; 
     }else{
-      return false;
+      return undefined;
     }
   }
 
@@ -58,10 +71,7 @@ class HtmlTable extends React.Component<Props,State> {
     }
   }
 
-  onSelectChange(selectedRowKeys:Array<number>):void{
-    console.log('selectedRowKeys changed: ', selectedRowKeys);
-    this.setState({ selectedRowKeys });
-  }
+
 
   remove():void{
     if(this.state.selectedRowKeys.length===0){
@@ -93,41 +103,60 @@ class HtmlTable extends React.Component<Props,State> {
     this.props.showMessage(message,action)
   }
 
-  handleChange(pagination:any, filters:any, sorter:any):void{
-    console.log('Various parameters', pagination, filters, sorter);
-    this.setState({
-      filteredInfo: filters,
-      sortedInfo: sorter,
-    });
+  onSelectChange(selectedRowKeys:Array<number>):void{
+    console.log('selectedRowKeys changed: ', selectedRowKeys);
+    this.setState({ selectedRowKeys });
   }
 
-    getColumns():Array<any>{
-      return [{
-            title: 'File Name',
-            dataIndex: 'name',
-            key:"name",
-            sorter:this.order.bind(this),
-            sortOrder: this.getSortOrder.call(this,"name")
-          },{
-            title:"Size",
-            dataIndex:"size",
-            render: (size:number) =>{
-              let text=_.round(size/1024, 2) +" kb";
-              return <span>{text}</span>;
-            },
-            sorter:this.order.bind(this),
-            sortOrder: this.getSortOrder.call(this,"size")
-          },{
-            title:"last Modified Date",
-            dataIndex:"lastModifiedDate",
-            render:(lastModifiedDate:Date) => <span>{lastModifiedDate && lastModifiedDate.toDateString()}</span>,
-            sorter:this.order.bind(this),
-            sortOrder: this.getSortOrder.call(this,"lastModifiedDate")
-          },{
-            title:"Action",
-            dataIndex:"file",
-            render: (file:any) => <Button type="link" onClick={()=>{this.review(file)}}>review</Button>,
-          }];
+  getTableProps(){
+    return {
+      columns:this.getColumns(),
+      dataSource:this.props.licenseInfoStore.htmlFileDataSource,
+      onChange:this.handleChange.bind(this),
+      onSelectChange:this.onSelectChange.bind(this),
+      selectedRowKeys:this.state.selectedRowKeys
+    }
+  }
+
+  isValidFiled(key:string,object:IrecordType): key is keyof typeof object{
+    return key in object;
+  }
+
+  getColumns():ColumnType<IrecordType>[] {
+
+    const ColumnField={
+      name:"name",
+      size:"size",
+      lastModifiedDate:"lastModifiedDate",
+      file:"file"
+    }
+
+    return [{
+          title: 'File Name',
+          dataIndex: ColumnField.name,
+          key:ColumnField.name,
+          sorter:this.order.bind(this),
+          sortOrder: this.getSortOrder.call(this,ColumnField.name)
+        },{
+          title:"Size",
+          dataIndex:ColumnField.size,
+          render: (size:number) =>{
+            let text=_.round(size/1024, 2) +" kb";
+            return <span>{text}</span>;
+          },
+          sorter:this.order.bind(this),
+          sortOrder: this.getSortOrder.call(this,ColumnField.size)
+        },{
+          title:"last Modified Date",
+          dataIndex:ColumnField.lastModifiedDate,
+          render:(lastModifiedDate:Date) => <span>{lastModifiedDate && lastModifiedDate.toDateString()}</span>,
+          sorter:this.order.bind(this),
+          sortOrder: this.getSortOrder.call(this,ColumnField.lastModifiedDate)
+        },{
+          title:"Action",
+          dataIndex:ColumnField.file,
+          render: (file:any) => <Button type="link" onClick={()=>{this.review(file)}}>review</Button>,
+        }];
     }
 
     review(file:any):void{
@@ -149,14 +178,16 @@ class HtmlTable extends React.Component<Props,State> {
       this.setState({ preview: false });
     }
 
+    handleChange(pagination:any, filters:any, sorter:any):void {
+      console.log('Various parameters', pagination, filters, sorter);
+      this.setState({
+        filteredInfo: filters,
+        sortedInfo: sorter,
+      });
+    }
+
     render():ReactElement{
-      const rowSelection = {
-        selectedRowKeys:this.state.selectedRowKeys,
-        onChange:(selectedRowKeys:any)=>{
-           this.onSelectChange(selectedRowKeys)
-        }
-      }
-      const columns=this.getColumns();
+      const tableProps=this.getTableProps();
         return (
             <div className="HtmlTable">
               {this.state.preview && <PreviewHTML title={this.state.currentFileName} handleCancel={()=>{this.handleCancel()}} visible={this.state.preview}>
@@ -170,10 +201,7 @@ class HtmlTable extends React.Component<Props,State> {
                   Remove All
                 </Button>
               </div>
-              <Table pagination={{ position: ["bottomLeft"],
-              showTotal:(total, range) => `${range[0]}-${range[1]} of ${total} items`}}
-              onChange={(pagination, filters, sorter)=>{this.handleChange(pagination, filters, sorter)}} 
-              rowSelection={rowSelection} size="small" bordered columns={columns} dataSource={[...this.props.licenseInfoStore.htmlFileDataSource]} />
+              <BaseTable {...(tableProps as any)}></BaseTable>
           </div>
         );
     }

@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 import _ from 'lodash';
 import './BaseTable.styl';
 
-export interface otherProps<T,V extends keyof T>{
+export interface otherProps<T,V>{
   columns:ColumnType<T>[],
   selectAble?:boolean,
   dataSource:T[],
@@ -16,7 +16,7 @@ export interface otherProps<T,V extends keyof T>{
 
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-class BaseTable<T extends object,V extends keyof T> extends React.Component<otherProps<T,V> & TableProps<T>>{
+class BaseTable<T extends object,V> extends React.Component<otherProps<T,V> & TableProps<T>>{
   constructor(props:otherProps<T,V> & TableProps<T>) {
         super(props);
         //react state

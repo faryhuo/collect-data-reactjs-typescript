@@ -16,7 +16,8 @@ export interface Props {
 }
 interface State {
     fileList:Array<any>,
-    fileMap:any
+    fileMap:any,
+    dataDisplay:boolean
 }
 
 interface UploadProps {
@@ -38,7 +39,8 @@ class CollectData extends React.Component<Props,State> {
         //react state
         this.state={
             fileList:this.props.licenseInfoStore.fileList,
-            fileMap:this.props.licenseInfoStore.fileMap || {}
+            fileMap:this.props.licenseInfoStore.fileMap || {},
+            dataDisplay:false
         }
     }
 
@@ -72,6 +74,7 @@ class CollectData extends React.Component<Props,State> {
                 self.props.licenseInfoStore.addFile(file);
                 self.setState((state) => ({
                     fileList: [...state.fileList, file],
+                    dataDisplay:true
                 }));
                 return false;
             }
@@ -124,7 +127,7 @@ class CollectData extends React.Component<Props,State> {
                     <DraggerUpload {...uploadProps}></DraggerUpload>
                 </Panel>
                 <Split></Split>
-                <Panel title="Upload file information">
+                <Panel title="Upload file information" display={this.state.dataDisplay}>
                     <div className="data-list">
                         <HtmlTable licenseInfoStore={this.props.licenseInfoStore} showMessage={this.props.showMessage}></HtmlTable>
                     </div>
