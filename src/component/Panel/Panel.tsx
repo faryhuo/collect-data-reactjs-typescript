@@ -1,14 +1,17 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { Card } from 'antd';
-import { CaretUpOutlined,CaretDownOutlined} from '@ant-design/icons';
+import { CaretUpOutlined,CaretDownOutlined,ShrinkOutlined,ArrowsAltOutlined} from '@ant-design/icons';
 import './Panel.styl';
 
 export interface Props{
   title: ReactNode | string,
-  display?:boolean
+  display?:boolean,
+  onChange?:()=>void
+  actions?:Array<'max' | 'display'>
 }
 interface State{
   display: boolean
+  isMax:boolean
 }
 
 class Panel extends React.Component<Props,State> {
@@ -16,14 +19,66 @@ class Panel extends React.Component<Props,State> {
         super(props);
         //react state
         this.state={
-          display:props.display!=null? props.display:true
+          display:props.display!=null? props.display:true,
+          isMax:false
         }
     }
 
     showOrHideContent(): void{
+      if(this.props.onChange){
+        this.props.onChange();
+      }else{
+        this.setState({
+          display:!this.state.display
+        });
+      }
+    }
+
+    maxContent(): void{
       this.setState({
-        display:!this.state.display
+        isMax:!this.state.isMax
+      });      
+    }
+
+    getMaxButton():ReactElement{
+      return (
+        <div className="panel-action-button">
+          <span  onClick={()=>{this.maxContent()}}>{this.state.isMax?<ShrinkOutlined />:<ArrowsAltOutlined />}</span>
+      </div>
+      );
+    }
+
+    getShowHideButton():ReactElement{
+      return (
+        <div className="panel-action-button">
+          <span onClick={()=>{this.showOrHideContent()}}>{this.isDisplay()?<CaretUpOutlined />:<CaretDownOutlined />}</span>
+        </div>
+        );
+    }
+
+    getActionButton(){
+      const actionButtons=this.props.actions?this.props.actions:['max','display'];
+      let buttonList: ReactElement[]=[];
+      actionButtons.forEach((value)=>{
+        switch(value){
+          case 'max': buttonList.push(this.getMaxButton());break;
+          case 'display': buttonList.push(this.getShowHideButton());break;
+          default:break;
+        }
       });
+      return (
+        <div className="panel-button-list">
+          {buttonList.map((button)=>(button))}
+        </div>
+      );
+    }
+
+    isDisplay(){
+      let isDisplay=this.state.display;
+      if(this.props.display){
+        isDisplay=this.props.display;
+      }
+      return isDisplay;
     }
 
 
@@ -39,13 +94,18 @@ class Panel extends React.Component<Props,State> {
       //     return child;
       //   }
       // });
-        return (
-          <div className="Panel">
-              <Card title={this.props.title}  extra={<span onClick={()=>{this.showOrHideContent()}}>{this.state.display?<CaretUpOutlined />:<CaretDownOutlined />}</span>} bordered={false} >
-                 {this.state.display && this.props.children}
+      return (
+        <div className="Panel">
+            <Card title={this.props.title}  extra={this.getActionButton()} bordered={false} >
+                {this.isDisplay() && this.props.children}
+            </Card>
+            {this.state.isMax && <div className="max-modal-wrapper">
+              <Card title={this.props.title}  extra={this.getMaxButton()} bordered={false} >
+                  {this.props.children}
               </Card>
-          </div>
-        );
+            </div>}
+        </div>
+      );
     }
 }
 

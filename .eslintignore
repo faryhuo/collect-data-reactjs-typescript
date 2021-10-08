@@ -3,3 +3,4 @@ public/**
 build/**
 **/*.test.tsx
 **/*.test.ts
+scripts/**

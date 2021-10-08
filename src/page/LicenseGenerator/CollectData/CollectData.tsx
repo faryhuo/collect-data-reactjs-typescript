@@ -123,11 +123,11 @@ class CollectData extends React.Component<Props,State> {
                 {/* <div style={{"textAlign":"center"}}>
                     <h2>Upload the license information file (html file)</h2>
                 </div> */}
-                <Panel title="Upload the license information file (html file)">
+                <Panel actions={['display']} title="Upload the license information file (html file)">
                     <DraggerUpload {...uploadProps}></DraggerUpload>
                 </Panel>
                 <Split></Split>
-                <Panel title="Upload file information" display={this.state.dataDisplay}>
+                <Panel title="Upload file information" display={this.state.dataDisplay} onChange={()=>{this.setState({dataDisplay:!this.state.dataDisplay})}}>
                     <div className="data-list">
                         <HtmlTable licenseInfoStore={this.props.licenseInfoStore} showMessage={this.props.showMessage}></HtmlTable>
                     </div>
