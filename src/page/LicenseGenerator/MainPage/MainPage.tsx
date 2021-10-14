@@ -66,9 +66,9 @@ class MainPage extends React.Component<Props,State> {
 
     getStepStatus(current:number):StepStatus{
       if(current<this.state.maxCurrent){
-        return StepStatus.Finish
+        return StepStatus.Finish;
       }else if(current===this.state.maxCurrent){
-        return StepStatus.Process
+        return StepStatus.Process;
       }else{
         return StepStatus.Wait;
       }

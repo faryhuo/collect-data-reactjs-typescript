@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import { Avatar as BaseAvatar, Dropdown } from 'antd';
 import './Avatar.styl';
+import { AvatarSize } from 'antd/lib/avatar/SizeContext';
 
 export interface Props{
   username:string,
@@ -18,21 +19,33 @@ class Avatar extends React.Component<Props,State> {
         this.state={
         }
     }
+
+    getProps(){
+      return {
+        size:"large" as AvatarSize | undefined,
+        placement:"bottomLeft" as "bottomLeft" | "topLeft" | "topCenter" | "topRight" | "bottomCenter" | "bottomRight" | undefined,
+        trigger:['click'] as ("click" | "hover" | "contextMenu")[],
+        arrow:true
+      }
+    }
     
 
 
     render(): ReactElement {
-      const userAvatar=(<BaseAvatar size="large" gap={1}>
-                          {this.props.username}
-                        </BaseAvatar>);
-        return (
-          <div className="Avatar">
-            {this.props.menu && <Dropdown trigger={['click']} overlay={this.props.menu} placement="bottomLeft" arrow>
-              {userAvatar}
-            </Dropdown>}
-            {!this.props.menu && userAvatar}
-          </div>
-        );
+      const props=this.getProps();
+      const userAvatar=(
+          <BaseAvatar size={props.size} gap={1}>
+            {this.props.username}
+          </BaseAvatar>
+      );
+      return (
+        <div className="Avatar">
+          {this.props.menu && <Dropdown trigger={props.trigger} overlay={this.props.menu} placement={props.placement} arrow={props.arrow}>
+            {userAvatar}
+          </Dropdown>}
+          {!this.props.menu && userAvatar}
+        </div>
+      );
     }
 }
 

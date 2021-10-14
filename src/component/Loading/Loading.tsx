@@ -16,12 +16,20 @@ class Loading extends React.Component<Props,State> {
         }
     }
 
+    getProps(){
+      return {
+        size:"large" as "large" | "default" | "small" | undefined,
+        tip:"Loading..."
+      }
+    }
+
 
     render():ReactElement {
+      const props=this.getProps();
         return (
             <div className="Loading">
                 {this.props.display && <div className="loading">                
-                    <Spin size="large" tip="Loading..."></Spin>
+                    <Spin size={props.size} tip={props.tip}></Spin>
                 </div>}
           </div>
         );
