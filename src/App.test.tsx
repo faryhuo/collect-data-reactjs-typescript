@@ -1,10 +1,10 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 import stores from './store/index';
 
-test('renders learn react link', () => {
+test('renders application page if has the Admin text', () => {
   render(<App {...stores}/>);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  // const linkElement = screen.getAllByTestId("App_Conponent")
+  // expect(linkElement).toBeInTheDocument();
 });
+

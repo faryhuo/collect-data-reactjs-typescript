@@ -40,31 +40,33 @@ class Panel extends React.Component<Props,State> {
       });      
     }
 
-    getMaxButton():ReactElement{
+    getMaxButton(key:number):ReactElement{
       return (
-        <div className="panel-action-button">
+        <div key={key} className="panel-action-button">
           <span  onClick={()=>{this.maxContent()}}>{this.state.isMax?<ShrinkOutlined />:<ArrowsAltOutlined />}</span>
       </div>
       );
     }
 
-    getShowHideButton():ReactElement{
+    getShowHideButton(key:number):ReactElement{
       return (
-        <div className="panel-action-button">
+        <div  key={key}  className="panel-action-button">
           <span onClick={()=>{this.showOrHideContent()}}>{this.isDisplay()?<CaretUpOutlined />:<CaretDownOutlined />}</span>
         </div>
         );
     }
 
-    getActionButton(){
+    getActionButton():ReactElement{
       const actionButtons=this.props.actions?this.props.actions:['max','display'];
       let buttonList: ReactElement[]=[];
+      let key=0;
       actionButtons.forEach((value)=>{
         switch(value){
-          case 'max': buttonList.push(this.getMaxButton());break;
-          case 'display': buttonList.push(this.getShowHideButton());break;
+          case 'max': buttonList.push(this.getMaxButton(key));break;
+          case 'display': buttonList.push(this.getShowHideButton(key));break;
           default:break;
         }
+        key++;
       });
       return (
         <div className="panel-button-list">
@@ -73,7 +75,7 @@ class Panel extends React.Component<Props,State> {
       );
     }
 
-    isDisplay(){
+    isDisplay():boolean{
       let isDisplay=this.state.display;
       if(this.props.display){
         isDisplay=this.props.display;
@@ -100,7 +102,7 @@ class Panel extends React.Component<Props,State> {
                 {this.isDisplay() && this.props.children}
             </Card>
             {this.state.isMax && <div className="max-modal-wrapper">
-              <Card title={this.props.title}  extra={this.getMaxButton()} bordered={false} >
+              <Card title={this.props.title}  extra={this.getMaxButton(1)} bordered={false} >
                   {this.props.children}
               </Card>
             </div>}
