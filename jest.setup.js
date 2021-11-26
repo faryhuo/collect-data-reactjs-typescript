@@ -19,6 +19,7 @@ if (typeof window !== 'undefined') {
   // ref: https://github.com/ant-design/ant-design/issues/18774
   if (!window.matchMedia) {
     Object.defineProperty(window, 'matchMedia', {
+      // eslint-disable-next-line arrow-body-style
       value: (query) => {return  {
         matches: query.includes('max-width'),
         addListener: jest.fn(),

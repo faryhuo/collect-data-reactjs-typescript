@@ -16,9 +16,10 @@ test('test PreviewHTML if visible', () => {
   expect(linkElement).toBeInTheDocument();
 });
 
-test('test PreviewHTML if has title', () => {
+test('test PreviewHTML json tree', () => {
   render(<PreviewHTML visible handleCancel={()=>{}}title="html1" 
   >{`<span>Conetnt 1</span>`}</PreviewHTML>);
   const linkElement = screen.getByText("html1");
   expect(linkElement).toBeInTheDocument();
 });
+
